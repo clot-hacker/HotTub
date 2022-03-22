@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_QuenchTank" Id="{a0e2e726-f3b1-46e4-a948-9b07cbe723bb}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_QuenchTank
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_DrainTank" Id="{f2311ade-b7b2-4b22-8411-9cb761205599}">
+      <Declaration><![CDATA[METHOD M_DrainTank : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_FillTank" Id="{7fce20e2-fe8f-455d-92d6-51ae4650f517}">
+      <Declaration><![CDATA[METHOD M_FillTank : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_QuenchTank">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_QuenchTank.M_DrainTank">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_QuenchTank.M_FillTank">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

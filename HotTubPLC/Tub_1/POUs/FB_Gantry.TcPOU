@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Gantry" Id="{b7979926-7c32-4a40-91b9-f80b9f875b86}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Gantry
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_HeatSoak" Id="{19339519-3588-48a6-b846-72bfab32be0d}">
+      <Declaration><![CDATA[METHOD M_HeatSoak : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Home" Id="{1e0502fa-b362-416e-8dd0-a04418b7d6ba}">
+      <Declaration><![CDATA[METHOD M_Home : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Quench" Id="{8ac75d54-3dc9-4695-a395-72b1be965303}">
+      <Declaration><![CDATA[METHOD M_Quench : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Gantry">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Gantry.M_HeatSoak">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Gantry.M_Home">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Gantry.M_Quench">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
