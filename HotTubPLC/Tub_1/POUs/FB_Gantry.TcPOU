@@ -1,12 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
   <POU Name="FB_Gantry" Id="{b7979926-7c32-4a40-91b9-f80b9f875b86}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Gantry
 VAR_INPUT
+	bExecuteHeatSetCycle 	: BOOL;
+	bGoHome 				: BOOL;
+	bGoPreHeatSet 			: BOOL;
+	bGoHeatSet 				: BOOL;
+	bGoPreQuench 			: BOOL;
+	bGoQuench 				: BOOL;
 END_VAR
 VAR_OUTPUT
+	bAtHome 				: BOOL;
+	bAtPreHeatSet 			: BOOL;
+	bAtHeatSet 				: BOOL;
+	bAtPreQuench 			: BOOL;
+	bAtQuench 				: BOOL;
 END_VAR
 VAR
+	IpAddrX : STRING(15) := '10.10.10.1';
+	IpAddrZ : STRING(15) := '10.10.10.2';
+	TcpPort : INT := 502;
+	nUnitID : BYTE := 255;
 END_VAR
 ]]></Declaration>
     <Implementation>

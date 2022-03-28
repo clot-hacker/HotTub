@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
   <POU Name="MAIN" Id="{efa7bdf7-c0cf-482e-b1df-3f80349c525c}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	
 // general use variables
-
-
+aModbusArray : ARRAY[1..2] OF WORD;
+iSingeData	: WORD;
+fbTCPReadRegs : Tc2_ModbusSrv.FB_MBReadRegs;
+bActivateMBRead : BOOL;
 // salt furnace variables
 
 
@@ -14,12 +16,32 @@ VAR
 
 
 END_VAR
+
+
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[
+
+fbTCPReadRegs(sIPAddr := '10.10.10.1',
+			  nTCPPort := 502,
+    		  nUnitID := 16#FF,
+			  nQuantity := 1,
+			  nMBAddr := 13,
+			  cbLength := SIZEOF(aModbusArray),
+		      pDestAddr := ADR(aModbusArray),
+			  bExecute := bActivateMBRead,							
+			  tTimeout := T#10S );
+			  ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
+      <LineId Id="51" Count="1" />
       <LineId Id="2" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="32" Count="1" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="50" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -5,10 +5,15 @@
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
-END_VAR
-VAR
-END_VAR
-]]></Declaration>
+	biWaterLevelEmpty		AT %I* : BOOL;
+	biWaterLevelFull 		AT %I* : BOOL;
+	biWaterOverflowAlarm	AT %I* : BOOL;
+	biWaterLeakAlarm		AT %I* : BOOL;
+	boEnablePump			AT %I* : BOOL;
+	boOpenFillValve			AT %I* : BOOL;
+	boEnableHeaters			AT %I* : BOOL;
+	aiWaterTemp				AT %I* : USINT;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>

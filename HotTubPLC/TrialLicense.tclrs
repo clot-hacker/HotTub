@@ -2,9 +2,9 @@
 <TcLicenseInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2011/11/TcLicenseInfo">
 	<LicenseInfo>
 		<SystemId>{3DFA85A2-57F5-5960-451A-71FA9AF4D539}</SystemId>
-		<IssueTime>2022-03-16T22:06:00</IssueTime>
-		<ExpireTime>2022-03-24T00:00:00</ExpireTime>
-		<LicenseKey>84fff5333f587668d38bec33919c3efda8f0f45945e20aa3668565710d2afc305e964cb2c884ebec94dc875af6ee134c0800447decc1115a21a4b3bb4c745fd9efc7b1a19fe4d04c31233f42c5e6f6bc189efec8bf96847c3d955fc1d8228f810ef7e4f94a18cf99bc841019f9ae7f45afb7ce3b834de91637b2c40551f5c300c131179e69bfaa4cf37477c08bd74b5848408b411744e9a6f90b4c8a6322f3ebf3af7c925933c592fff9e53045e93302d5fc28050cebee533083d5ae07d19c58c350f8986da49bd782c109d948e5117bf0271d5872410aa7c1deb3899790bce065980e394300ea9b2b877c109674f395cd10a89b28e04a1c9766cd99048c18c9</LicenseKey>
+		<IssueTime>2022-03-23T17:23:00</IssueTime>
+		<ExpireTime>2022-03-31T00:00:00</ExpireTime>
+		<LicenseKey>571fb7398bfec113029c9a803d0533dcc5c4fca229595ad5bd3be4c90f635cf0299b6cc332c31b0d01407f2df960029cae16fc930499e33cdcc684a65d88c8dcb9d81c64fb6b2dfd5fd48f41620c58346a2dbc7cf3d7674a1e75b5ca18d1a6cf3167c7c7a5b526e9a4c573e64d0289476e6a4b4f9e46aabab6820293f40d5ac9d2f228639e3652cfbc5327444bda52eccfefd0545d581e631b616bcd8f80891c6274e9f2e20edcdef0ff65975d35adf8e934e592c13848f6e9d5f576c8367ccd0830aa36ce234eac6ae0bb4f773ab5e75a7a629c521e66c073c9a0af3a870c98d343976170524b3922148f318501944ba2533280316dccdfbc03ad71818e6c89</LicenseKey>
 		<License>
 			<LicenseId>{4C256767-E6E6-4AF5-BD68-9F7ABAD0C200}</LicenseId>
 			<Name>TC3 ADS</Name>
@@ -39,6 +39,16 @@
 			<LicenseId>{CB3D4492-5E9E-43BC-AB3B-27CF3896EEC2}</LicenseId>
 			<Name>TC3 HMI Clients Pack 2</Name>
 			<OrderNo>TF2015</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{777F1598-583B-4503-99BB-7C02E0ABD97E}</LicenseId>
+			<Name>TC3 Controller Toolbox</Name>
+			<OrderNo>TF4100</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{6952449D-F68C-49A2-ADE4-8639D85B33A4}</LicenseId>
+			<Name>TC3 Modbus-TCP</Name>
+			<OrderNo>TF6250</OrderNo>
 		</License>
 		<License>
 			<LicenseId>{2752D285-16AD-4E89-AE6C-80E72784D264}</LicenseId>

@@ -5,10 +5,9 @@
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
-END_VAR
-VAR
-END_VAR
-]]></Declaration>
+	bSaltCoverOn				   : BOOL;	
+	aiSaltTemp				AT %I* : USINT;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
