@@ -4,11 +4,12 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Gantry
 VAR_INPUT
 	bExecuteHeatSetCycle 	: BOOL;
-	bGoHome 				: BOOL;
-	bGoPreHeatSet 			: BOOL;
-	bGoHeatSet 				: BOOL;
-	bGoPreQuench 			: BOOL;
-	bGoQuench 				: BOOL;
+	bGoHome 				: BOOL;		// nStateVariable 0
+	bGoPreHeatSet 			: BOOL;		// nStateVariable 1
+	bGoHeatSet 				: BOOL;		// nStateVariable 2
+	bGoPreQuench 			: BOOL;		// nStateVariable 3
+	bGoQuench 				: BOOL;		// nStateVariable 4
+	bStayIdle				: BOOL; 	// nStateVariable 5
 END_VAR
 VAR_OUTPUT
 	bAtHome 				: BOOL;
@@ -16,29 +17,106 @@ VAR_OUTPUT
 	bAtHeatSet 				: BOOL;
 	bAtPreQuench 			: BOOL;
 	bAtQuench 				: BOOL;
+	bBusy					: BOOL;
+	bHeatSetCycleFinished	: BOOL;
 END_VAR
 VAR
-	IpAddrX : STRING(15) := '10.10.10.1';
-	IpAddrZ : STRING(15) := '10.10.10.2';
-	TcpPort : INT := 502;
-	nUnitID : BYTE := 255;
+	IpAddrX 			: STRING(15) := '10.10.10.1';
+	IpAddrZ 			: STRING(15) := '10.10.10.2';
+	TcpPort 			: UINT := 502;
+	nUnitID 			: BYTE := 255;
+	nStateVariable		: BYTE;
+	fbReadRegs 			: Tc2_ModbusSrv.FB_MBReadRegs;			// modbus function 3
+	fbReadInputRegs 	: Tc2_ModbusSrv.FB_MBReadInputRegs;		// modbus function 4
+	fbWriteSingleReg	: Tc2_ModbusSrv.FB_MBWriteSingleReg;	// modbus function 6
+	fbWriteMultiRegs	: Tc2_ModbusSrv.FB_MBWriteRegs;			// modbus function 16
+	tmrGantryTimer		: Tc2_Standard.TON;
+	
+	nMBAddr : UINT;
+	nValue	: BYTE;
+	aModbusArray : ARRAY[1..2] OF WORD;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[tmrGantryTimer(IN := bExecuteHeatSetCycle, PT := main.tTotalCycleTime);
+
+IF bExecuteHeatSetCycle THEN
+	IF bAtHome AND NOT bHeatSetCycleFinished THEN 
+		nStateVariable := 1;
+	ELSIF bAtPreHeatSet AND nStateVariable = 1 THEN 
+		nStateVariable := 2;
+	ELSIF bAtHeatSet AND tmrGantryTimer.ET > main.tHeatSetDuration THEN 
+		nStateVariable := 3;
+	ELSIF bAtPreQuench AND nStateVariable = 3 THEN 
+		nStateVariable := 4;
+	ELSIF bAtQuench AND tmrGantryTimer.ET > main.tQuenchDuration THEN 
+		nStateVariable := 0;
+		bHeatSetCycleFinished := TRUE;
+	ELSIF bAtHome AND bHeatSetCycleFinished THEN
+		nStateVariable := 5;
+		bExecuteHeatSetCycle := FALSE;
+	END_IF
+END_IF
+
+IF nStateVariable = 0 THEN
+	M_Home(TRUE);
+ELSIF nStateVariable = 1 OR nStateVariable = 2 THEN
+	M_HeatSoak(TRUE);
+ELSIF nStateVariable = 3 OR nStateVariable = 4 THEN
+	M_Quench(TRUE);
+ELSIF nStateVariable = 5 THEN
+	M_Idle(TRUE);
+END_IF]]></ST>
     </Implementation>
     <Method Name="M_HeatSoak" Id="{19339519-3588-48a6-b846-72bfab32be0d}">
       <Declaration><![CDATA[METHOD M_HeatSoak : BOOL
 VAR_INPUT
+	bExecute : BOOL;
+END_VAR
+VAR
+	bWriteValues : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[fbReadInputRegs(sIPAddr := IpAddrX,
+			    nTCPPort := TcpPort,
+        	    nUnitID := 16#FF,
+			    nQuantity := 2,
+			    nMBAddr := nMBAddr,
+		        cbLength := SIZEOF(aModbusArray),
+		        pDestAddr := ADR(aModbusArray),
+			    bExecute := bWriteValues,							
+			    tTimeout := T#10S );
+				 		 
+bExecute := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Home" Id="{1e0502fa-b362-416e-8dd0-a04418b7d6ba}">
       <Declaration><![CDATA[METHOD M_Home : BOOL
 VAR_INPUT
+	bExecute : BOOL;
+END_VAR
+VAR
+	bWriteValues : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbWriteMultiRegs(sIPAddr := IpAddrX,
+			  	 nTCPPort := TcpPort,
+    		     nUnitID := 16#FF,
+				 nQuantity := 1,
+			  	 nMBAddr := nMBAddr,
+				 cbLength := SIZEOF(aModbusArray),
+				 pSrcAddr := ADR(aModbusArray),
+			 	 bExecute := bWriteValues,							
+			  	 tTimeout := T#1S );
+				 
+bExecute := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Idle" Id="{30e7bd95-90a9-4644-a687-4e7ed180b9c1}">
+      <Declaration><![CDATA[METHOD M_Idle : BOOL
+VAR_INPUT
+	bExecute : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -48,6 +126,7 @@ END_VAR
     <Method Name="M_Quench" Id="{8ac75d54-3dc9-4695-a395-72b1be965303}">
       <Declaration><![CDATA[METHOD M_Quench : BOOL
 VAR_INPUT
+	bExecute : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -55,12 +134,52 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="FB_Gantry">
-      <LineId Id="9" Count="0" />
+      <LineId Id="47" Count="1" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="72" Count="2" />
+      <LineId Id="78" Count="2" />
+      <LineId Id="71" Count="0" />
     </LineIds>
     <LineIds Name="FB_Gantry.M_HeatSoak">
+      <LineId Id="9" Count="2" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="16" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="29" Count="0" />
     </LineIds>
     <LineIds Name="FB_Gantry.M_Home">
+      <LineId Id="10" Count="2" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="18" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Gantry.M_Idle">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Gantry.M_Quench">

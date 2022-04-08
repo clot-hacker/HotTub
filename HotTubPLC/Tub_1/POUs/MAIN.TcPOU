@@ -6,9 +6,19 @@ VAR
 	
 // general use variables
 aModbusArray : ARRAY[1..2] OF WORD;
-iSingeData	: WORD;
 fbTCPReadRegs : Tc2_ModbusSrv.FB_MBReadRegs;
-bActivateMBRead : BOOL;
+bActivateMBRead 	: BOOL;
+bTestBool			: BOOL;
+
+tTotalCycleTime 	: TIME;
+tHeatSetDuration	: TIME;
+tQuenchDuration		: TIME;
+
+fbFurnace 		: FB_Furnace;
+fbGantry 		: FB_Gantry;
+fbQuenchTank 	: FB_QuenchTank;
+
+
 // salt furnace variables
 
 
@@ -31,6 +41,10 @@ fbTCPReadRegs(sIPAddr := '10.10.10.1',
 		      pDestAddr := ADR(aModbusArray),
 			  bExecute := bActivateMBRead,							
 			  tTimeout := T#10S );
+			  
+IF bTestBool THEN
+	fbGantry();
+END_IF
 			  ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
@@ -41,6 +55,8 @@ fbTCPReadRegs(sIPAddr := '10.10.10.1',
       <LineId Id="21" Count="1" />
       <LineId Id="32" Count="1" />
       <LineId Id="25" Count="0" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="65" Count="1" />
       <LineId Id="50" Count="0" />
     </LineIds>
   </POU>
