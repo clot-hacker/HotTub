@@ -9,6 +9,7 @@ aModbusArray : ARRAY[1..2] OF WORD;
 fbTCPReadRegs : Tc2_ModbusSrv.FB_MBReadRegs;
 bActivateMBRead 	: BOOL;
 bTestBool			: BOOL;
+sMachineState		: STRING(10);
 
 tTotalCycleTime 	: TIME;
 tHeatSetDuration	: TIME;
@@ -45,6 +46,13 @@ fbTCPReadRegs(sIPAddr := '10.10.10.1',
 IF bTestBool THEN
 	fbGantry();
 END_IF
+
+IF sMachineState = 'Stopped' THEN
+	
+ELSIF sMachineState = 'Running' THEN
+	
+ELSIF sMachineState = 'LowPower' THEN
+END_IF
 			  ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
@@ -57,6 +65,12 @@ END_IF
       <LineId Id="25" Count="0" />
       <LineId Id="60" Count="1" />
       <LineId Id="65" Count="1" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="98" Count="0" />
       <LineId Id="50" Count="0" />
     </LineIds>
   </POU>
