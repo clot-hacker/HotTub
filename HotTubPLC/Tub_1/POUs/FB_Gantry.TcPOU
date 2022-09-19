@@ -21,20 +21,8 @@ VAR_OUTPUT
 	bHeatSetCycleFinished	: BOOL;
 END_VAR
 VAR
-	IpAddrX 			: STRING(15) := '10.10.10.1';
-	IpAddrZ 			: STRING(15) := '10.10.10.2';
-	TcpPort 			: UINT := 502;
-	nUnitID 			: BYTE := 255;
-	nStateVariable		: BYTE;
-	fbReadRegs 			: Tc2_ModbusSrv.FB_MBReadRegs;			// modbus function 3
-	fbReadInputRegs 	: Tc2_ModbusSrv.FB_MBReadInputRegs;		// modbus function 4
-	fbWriteSingleReg	: Tc2_ModbusSrv.FB_MBWriteSingleReg;	// modbus function 6
-	fbWriteMultiRegs	: Tc2_ModbusSrv.FB_MBWriteRegs;			// modbus function 16
-	tmrGantryTimer		: Tc2_Standard.TON;
-	
-	nMBAddr : UINT;
-	nValue	: BYTE;
-	aModbusArray : ARRAY[1..2] OF WORD;
+	nStateVariable			: BYTE;
+	tmrGantryTimer			: Tc2_Standard.TON;
 END_VAR
 ]]></Declaration>
     <Implementation>

@@ -111,11 +111,13 @@
     <Folder Include="Fonts\" />
     <Folder Include="Images" />
     <Folder Include="Images\Manifest" />
+    <Folder Include="Images\Icons" />
     <Folder Include="Imports" />
     <Folder Include="Imports\Images" />
     <Folder Include="Imports\Videos" />
     <Folder Include="KeyboardLayouts\" />
     <Folder Include="Localization" />
+    <Folder Include="Content" />
     <Folder Include="Themes" />
     <Folder Include="Themes\Base-Dark\Images\" />
     <Folder Include="Themes\Base\" />
@@ -126,6 +128,45 @@
     <Folder Include="Properties" />
     <Content Include=".eslintrc.json">
       <Visible>false</Visible>
+    </Content>
+    <Content Include="Content\RunPage.content">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\down-arrow.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\play-button.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\recipiefolder.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\light-bulb.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\list.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\notification.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\padlock.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\pencil.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\settings.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\unlock.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\up-arrow.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\user.png">
+      <SubType>Content</SubType>
     </Content>
     <Content Include="Server\TcHmiLua\TcHmiLua.Config.default.json">
       <SubType>Content</SubType>
