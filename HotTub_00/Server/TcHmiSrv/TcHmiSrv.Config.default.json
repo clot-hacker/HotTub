@@ -2978,10 +2978,10 @@
     "VIDEOSEGMENTSIZE": 1048576,
     "VIRTUALDIRECTORIES": {
         "/": "..\\..\\HotTub_00\\",
-        "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.754.4\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.754.4\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.756.1\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.756.1\\runtimes\\native1.12-tchmi",
         "/bin": "..\\..\\HotTub_00\\bin\\",
         "/bin/framework": "..\\..\\HotTub_00\\bin\\framework",
-        "/framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.754.4\\runtimes\\native1.12-tchmi"
+        "/framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.756.1\\runtimes\\native1.12-tchmi"
     }
 }

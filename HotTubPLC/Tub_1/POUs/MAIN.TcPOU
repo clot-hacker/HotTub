@@ -5,10 +5,6 @@
 VAR
 	
 // general use variables
-aModbusArray : ARRAY[1..2] OF WORD;
-fbTCPReadRegs : Tc2_ModbusSrv.FB_MBReadRegs;
-bActivateMBRead 	: BOOL;
-bTestBool			: BOOL;
 sMachineState		: STRING(10);
 
 tTotalCycleTime 	: TIME;
@@ -31,47 +27,35 @@ END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-
-fbTCPReadRegs(sIPAddr := '10.10.10.1',
-			  nTCPPort := 502,
-    		  nUnitID := 16#FF,
-			  nQuantity := 1,
-			  nMBAddr := 13,
-			  cbLength := SIZEOF(aModbusArray),
-		      pDestAddr := ADR(aModbusArray),
-			  bExecute := bActivateMBRead,							
-			  tTimeout := T#10S );
-			  
-IF bTestBool THEN
-	fbGantry();
-END_IF
-
-IF sMachineState = 'Stopped' THEN
+      <ST><![CDATA[IF sMachineState = 'Idle' THEN
 	
-ELSIF sMachineState = 'Running' THEN
+ELSIF sMachineState = 'Navigating to Start Position' THEN
 	
-ELSIF sMachineState = 'LowPower' THEN
-END_IF
-			  ]]></ST>
+ELSIF sMachineState = 'Waiting for Start' THEN
+	
+ELSIF sMachineState = 'Heat Soaking' THEN
+	
+ELSIF sMachineState = 'Navigating to Quench' THEN
+	
+ELSIF sMachineState = 'Quenching' THEN
+	
+ELSIF sMachineState = 'Navigating Home' THEN
+	
+END_IF]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="51" Count="1" />
-      <LineId Id="2" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="18" Count="1" />
-      <LineId Id="21" Count="1" />
-      <LineId Id="32" Count="1" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="60" Count="1" />
-      <LineId Id="65" Count="1" />
-      <LineId Id="95" Count="0" />
       <LineId Id="94" Count="0" />
       <LineId Id="97" Count="0" />
       <LineId Id="99" Count="0" />
-      <LineId Id="102" Count="1" />
+      <LineId Id="133" Count="1" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="135" Count="1" />
+      <LineId Id="138" Count="1" />
+      <LineId Id="137" Count="0" />
+      <LineId Id="142" Count="0" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="140" Count="0" />
       <LineId Id="98" Count="0" />
-      <LineId Id="50" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
