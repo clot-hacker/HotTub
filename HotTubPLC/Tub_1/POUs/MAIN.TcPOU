@@ -1,29 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="MAIN" Id="{efa7bdf7-c0cf-482e-b1df-3f80349c525c}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	
 // general use variables
-aModbusArray : ARRAY[1..2] OF WORD;
-fbTCPReadRegs : Tc2_ModbusSrv.FB_MBReadRegs;
-bActivateMBRead 	: BOOL;
-bTestBool			: BOOL;
-sMachineState		: STRING(10);
-
+sMachineState		: STRING(20);
+sPrevMachineState	: STRING(20);
 tTotalCycleTime 	: TIME;
-tHeatSetDuration	: TIME;
-tQuenchDuration		: TIME;
 
+
+
+// function block declarations 
 fbFurnace 		: FB_Furnace;
 fbGantry 		: FB_Gantry;
 fbQuenchTank 	: FB_QuenchTank;
 
 
 // salt furnace variables
+tHeatSetDuration	: TIME;
+
+// gantry variables
 
 
 // quench tank variables
+tQuenchDuration		: TIME;
 
 
 END_VAR
@@ -31,47 +32,56 @@ END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-
-fbTCPReadRegs(sIPAddr := '10.10.10.1',
-			  nTCPPort := 502,
-    		  nUnitID := 16#FF,
-			  nQuantity := 1,
-			  nMBAddr := 13,
-			  cbLength := SIZEOF(aModbusArray),
-		      pDestAddr := ADR(aModbusArray),
-			  bExecute := bActivateMBRead,							
-			  tTimeout := T#10S );
-			  
-IF bTestBool THEN
-	fbGantry();
-END_IF
-
-IF sMachineState = 'Stopped' THEN
-	
-ELSIF sMachineState = 'Running' THEN
-	
-ELSIF sMachineState = 'LowPower' THEN
-END_IF
-			  ]]></ST>
+      <ST><![CDATA[IF sMachineState = 'Idle - At Home' THEN
+	IF sPrevMachineState <> 'Idle - At Home' THEN
+		sPrevMachineState := 'Idle - At Home';
+	END_IF
+ELSIF sMachineState = 'Moving to Start Pos' THEN
+	IF sPrevMachineState <> 'Moving to Start Pos' THEN
+		sPrevMachineState := 'Moving to Start Pos';
+	END_IF
+ELSIF sMachineState = 'Waiting for Start' THEN
+	IF sPrevMachineState <> 'Waiting for Start' THEN
+		sPrevMachineState := 'Waiting for Start';
+	END_IF
+ELSIF sMachineState = 'Heat Soaking' THEN
+	IF sPrevMachineState <> 'Heat Soaking' THEN
+		sPrevMachineState := 'Heat Soaking';
+	END_IF
+ELSIF sMachineState = 'Moving to Quench' THEN
+	IF sPrevMachineState <> 'Moving to Quench' THEN
+		sPrevMachineState := 'Moving to Quench';
+	END_IF
+ELSIF sMachineState = 'Quenching' THEN
+	IF sPrevMachineState <> 'Quenching' THEN
+		sPrevMachineState := 'Quenching';
+	END_IF
+ELSIF sMachineState = 'Navigating Home' THEN
+	IF sPrevMachineState <> 'Navigating Home' THEN
+		sPrevMachineState := 'Navigating Home';
+	END_IF
+END_IF]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="51" Count="1" />
-      <LineId Id="2" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="18" Count="1" />
-      <LineId Id="21" Count="1" />
-      <LineId Id="32" Count="1" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="60" Count="1" />
-      <LineId Id="65" Count="1" />
-      <LineId Id="95" Count="0" />
       <LineId Id="94" Count="0" />
       <LineId Id="97" Count="0" />
+      <LineId Id="175" Count="1" />
       <LineId Id="99" Count="0" />
-      <LineId Id="102" Count="1" />
+      <LineId Id="137" Count="0" />
+      <LineId Id="177" Count="1" />
+      <LineId Id="138" Count="1" />
+      <LineId Id="179" Count="1" />
+      <LineId Id="140" Count="1" />
+      <LineId Id="181" Count="1" />
+      <LineId Id="142" Count="1" />
+      <LineId Id="183" Count="1" />
+      <LineId Id="144" Count="0" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="185" Count="1" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="187" Count="1" />
       <LineId Id="98" Count="0" />
-      <LineId Id="50" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

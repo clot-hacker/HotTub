@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.25">
-	<Project ProjectGUID="{D474AA8C-2A72-4CB6-953B-D797EDB0626D}" TargetNetId="5.81.212.44.1.1" Target64Bit="true" ShowHideConfigurations="#x347">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.32">
+	<Project ProjectGUID="{D474AA8C-2A72-4CB6-953B-D797EDB0626D}" Target64Bit="true" ShowHideConfigurations="#x347">
 		<System>
 			<Licenses>
 				<Target>
@@ -19,7 +19,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{291D6C33-DD6E-4F15-80E0-547B0E53B99A}" Name="Tub_1" PrjFilePath="Tub_1\Tub_1.plcproj" TmcFilePath="Tub_1\Tub_1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Tub_1\Tub_1.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Tub_1\Tub_1.tmc" TmcHash="{4AD07F4E-C7F3-3974-3C0D-4BDE80F82B71}">
 					<Name>Tub_1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
