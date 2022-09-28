@@ -1,5 +1,5 @@
-﻿<div id="Desktop" data-tchmi-type="TcHmi.Controls.System.TcHmiView" data-tchmi-top="0" data-tchmi-left="0" data-tchmi-width-mode="Content" data-tchmi-min-width="100" data-tchmi-min-width-unit="%" data-tchmi-height-mode="Content" data-tchmi-min-height="100" data-tchmi-min-height-unit="%" data-tchmi-creator-viewport-height="480" data-tchmi-is-enabled="true">
-<div id="ContentRegion" data-tchmi-type="TcHmi.Controls.System.TcHmiRegion" data-tchmi-height="480" data-tchmi-height-unit="px" data-tchmi-left="0" data-tchmi-left-unit="px" data-tchmi-top="0" data-tchmi-top-unit="px" data-tchmi-width="700" data-tchmi-width-unit="px" data-tchmi-is-enabled="true">
+﻿<div id="Desktop" data-tchmi-type="TcHmi.Controls.System.TcHmiView" data-tchmi-top="0" data-tchmi-left="0" data-tchmi-width-mode="Content" data-tchmi-min-width="100" data-tchmi-min-width-unit="%" data-tchmi-height-mode="Content" data-tchmi-min-height="100" data-tchmi-min-height-unit="%" data-tchmi-creator-viewport-height="480" data-tchmi-is-enabled="true" data-tchmi-zindex="1">
+<div id="ContentRegion" data-tchmi-type="TcHmi.Controls.System.TcHmiRegion" data-tchmi-height="480" data-tchmi-height-unit="px" data-tchmi-left="0" data-tchmi-left-unit="px" data-tchmi-top="0" data-tchmi-top-unit="px" data-tchmi-width="700" data-tchmi-width-unit="px" data-tchmi-is-enabled="true" data-tchmi-zindex="1">
 
 <script data-tchmi-target-attribute="data-tchmi-border-width" type="application/json">
 {
@@ -14,7 +14,7 @@
 }
 </script>
 </div>
-<div id="Menu_Button" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="82" data-tchmi-height-unit="px" data-tchmi-left="710" data-tchmi-left-unit="px" data-tchmi-text="" data-tchmi-top="8" data-tchmi-top-unit="px" data-tchmi-width="82" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-is-enabled="true" data-tchmi-ignore-escape-sequences="false" data-tchmi-icon-width="80" data-tchmi-icon-height="80">
+<div id="Home_Button" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="80" data-tchmi-height-unit="px" data-tchmi-left="710" data-tchmi-left-unit="px" data-tchmi-top="22" data-tchmi-top-unit="px" data-tchmi-width="80" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-opacity="1" data-tchmi-visibility="Visible" data-tchmi-background-image-width="75" data-tchmi-background-image-height="75" data-tchmi-background-image="Images/Icons/home_off.png" data-tchmi-zindex="1">
 
 <script data-tchmi-target-attribute="data-tchmi-background-color" type="application/json">
 {
@@ -22,21 +22,119 @@
 }
 </script>
 
-<script data-tchmi-target-attribute="data-tchmi-border-style" type="application/json">
+<script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
+[
+  {
+    "event": "Home_Button.onPressed",
+    "actions": [
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%ctrl%ContentRegion::TargetContent%/ctrl%",
+        "value": {
+          "objectType": "StaticValue",
+          "valueType": "tchmi:framework#/definitions/ContentPath",
+          "value": "Content/HomePage.content"
+        },
+        "asyncWait": true
+      },
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%ctrl%Home_Button::BackgroundImage%/ctrl%",
+        "value": {
+          "objectType": "StaticValue",
+          "valueType": "tchmi:framework#/definitions/Path",
+          "value": "Images/Icons/home_on.png"
+        },
+        "asyncWait": true
+      },
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%ctrl%Alarm_Button::BackgroundImage%/ctrl%",
+        "value": {
+          "objectType": "StaticValue",
+          "valueType": "tchmi:framework#/definitions/Path",
+          "value": "Images/Icons/notification_off.png"
+        },
+        "asyncWait": true
+      },
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%ctrl%Recipie_Button::BackgroundImage%/ctrl%",
+        "value": {
+          "objectType": "StaticValue",
+          "valueType": "tchmi:framework#/definitions/Path",
+          "value": "Images/Icons/folder_off.png"
+        },
+        "asyncWait": true
+      }
+    ]
+  },
+  {
+    "event": "Home_Button.onInitialized",
+    "actions": [
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%ctrl%ContentRegion::TargetContent%/ctrl%",
+        "value": {
+          "objectType": "StaticValue",
+          "valueType": "tchmi:framework#/definitions/ContentPath",
+          "value": "Content/HomePage.content"
+        },
+        "asyncWait": true
+      },
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%ctrl%Home_Button::BackgroundImage%/ctrl%",
+        "value": {
+          "objectType": "StaticValue",
+          "valueType": "tchmi:framework#/definitions/Path",
+          "value": "Images/Icons/home_on.png"
+        },
+        "asyncWait": true
+      }
+    ]
+  }
+]
+</script>
+
+<script data-tchmi-target-attribute="data-tchmi-border-color" type="application/json">
 {
-  "left": "Solid",
-  "right": "Solid",
-  "top": "Solid",
-  "bottom": "Solid"
+  "color": "None"
 }
 </script>
 
 <script data-tchmi-target-attribute="data-tchmi-border-radius" type="application/json">
 {
-  "topLeft": 40.0,
-  "topRight": 40.0,
-  "bottomLeft": 40.0,
-  "bottomRight": 40.0,
+  "topLeft": 10.0,
+  "topRight": 10.0,
+  "bottomLeft": 10.0,
+  "bottomRight": 10.0,
+  "topLeftUnit": "px",
+  "topRightUnit": "px",
+  "bottomLeftUnit": "px",
+  "bottomRightUnit": "px"
+}
+</script>
+</div>
+<div id="DoorLock_Button" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="80" data-tchmi-height-unit="px" data-tchmi-left="710" data-tchmi-left-unit="px" data-tchmi-top="289" data-tchmi-top-unit="px" data-tchmi-width="80" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-background-image-width="75" data-tchmi-background-image-height="75" data-tchmi-background-image="Images/Icons/lock_off.png" data-tchmi-zindex="1">
+<script data-tchmi-target-attribute="data-tchmi-background-color" type="application/json">
+{
+  "color": "None"
+}
+</script>
+
+<script data-tchmi-target-attribute="data-tchmi-border-radius" type="application/json">
+{
+  "topLeft": 10.0,
+  "topRight": 10.0,
+  "bottomLeft": 10.0,
+  "bottomRight": 10.0,
   "topLeftUnit": "px",
   "topRightUnit": "px",
   "bottomLeftUnit": "px",
@@ -47,7 +145,7 @@
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
 [
   {
-    "event": "Menu_Button.onPressed",
+    "event": "DoorLock_Button.onPressed",
     "actions": [
       {
         "objectType": "Condition",
@@ -59,12 +157,12 @@
                 "compare1": {
                   "objectType": "Symbol",
                   "valueType": "tchmi:framework#/definitions/Path",
-                  "symbolExpression": "%ctrl%Menu_Button::BackgroundImage%/ctrl%"
+                  "symbolExpression": "%ctrl%DoorLock_Button::BackgroundImage%/ctrl%"
                 },
                 "compare2": {
                   "objectType": "StaticValue",
                   "valueType": "tchmi:framework#/definitions/Path",
-                  "value": "Images/Icons/down-arrow.png"
+                  "value": "Images/Icons/lock_off.png"
                 },
                 "compareOperator": "==",
                 "logic": null
@@ -74,77 +172,11 @@
               {
                 "objectType": "WriteToSymbol",
                 "active": true,
-                "symbolExpression": "%ctrl%Menu_Button::BackgroundImage%/ctrl%",
+                "symbolExpression": "%ctrl%DoorLock_Button::BackgroundImage%/ctrl%",
                 "value": {
                   "objectType": "StaticValue",
                   "valueType": "tchmi:framework#/definitions/Path",
-                  "value": "Images/Icons/up-arrow.png"
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%Menu_Button::BackgroundImageHeight%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/MeasurementValue",
-                  "value": 80.0
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%Menu_Button::BackgroundImageWidth%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/MeasurementValue",
-                  "value": 80.0
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%User_Button::Visibility%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/Visibility",
-                  "value": "Visible"
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%Run_Button::Visibility%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/Visibility",
-                  "value": "Visible"
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%LightControl_Button::Visibility%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/Visibility",
-                  "value": "Visible"
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%Alarm_Button::Visibility%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/Visibility",
-                  "value": "Visible"
+                  "value": "Images/Icons/unlock_on.png"
                 },
                 "asyncWait": true
               }
@@ -155,77 +187,11 @@
               {
                 "objectType": "WriteToSymbol",
                 "active": true,
-                "symbolExpression": "%ctrl%Menu_Button::BackgroundImage%/ctrl%",
+                "symbolExpression": "%ctrl%DoorLock_Button::BackgroundImage%/ctrl%",
                 "value": {
                   "objectType": "StaticValue",
                   "valueType": "tchmi:framework#/definitions/Path",
-                  "value": "Images/Icons/down-arrow.png"
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%Menu_Button::BackgroundImageHeight%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/MeasurementValue",
-                  "value": 80.0
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%Menu_Button::BackgroundImageWidth%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/MeasurementValue",
-                  "value": 80.0
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%User_Button::Visibility%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/Visibility",
-                  "value": "Hidden"
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%Run_Button::Visibility%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/Visibility",
-                  "value": "Hidden"
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%LightControl_Button::Visibility%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/Visibility",
-                  "value": "Hidden"
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%Alarm_Button::Visibility%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/Visibility",
-                  "value": "Hidden"
+                  "value": "Images/Icons/lock_off.png"
                 },
                 "asyncWait": true
               }
@@ -235,40 +201,63 @@
         "asyncWait": true
       }
     ]
-  },
+  }
+]
+</script>
+</div>
+<div id="Recipie_Button" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="80" data-tchmi-height-unit="px" data-tchmi-left="710" data-tchmi-left-unit="px" data-tchmi-top="200" data-tchmi-top-unit="px" data-tchmi-width="80" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-background-image-width="75" data-tchmi-background-image-height="75" data-tchmi-background-image="Images/Icons/folder_off.png" data-tchmi-zindex="1">
+<script data-tchmi-target-attribute="data-tchmi-background-color" type="application/json">
+{
+  "color": "None"
+}
+</script>
+
+<script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
+[
   {
-    "event": "Menu_Button.onInitialized",
+    "event": "Recipie_Button.onPressed",
     "actions": [
       {
         "objectType": "WriteToSymbol",
         "active": true,
-        "symbolExpression": "%ctrl%Menu_Button::BackgroundImage%/ctrl%",
+        "symbolExpression": "%ctrl%ContentRegion::TargetContent%/ctrl%",
+        "value": {
+          "objectType": "StaticValue",
+          "valueType": "tchmi:framework#/definitions/ContentPath",
+          "value": "Content/RecipiePage.content"
+        },
+        "asyncWait": true
+      },
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%ctrl%Home_Button::BackgroundImage%/ctrl%",
         "value": {
           "objectType": "StaticValue",
           "valueType": "tchmi:framework#/definitions/Path",
-          "value": "Images/Icons/down-arrow.png"
+          "value": "Images/Icons/home_off.png"
         },
         "asyncWait": true
       },
       {
         "objectType": "WriteToSymbol",
         "active": true,
-        "symbolExpression": "%ctrl%Menu_Button::BackgroundImageHeight%/ctrl%",
+        "symbolExpression": "%ctrl%Alarm_Button::BackgroundImage%/ctrl%",
         "value": {
           "objectType": "StaticValue",
-          "valueType": "tchmi:framework#/definitions/MeasurementValue",
-          "value": 80.0
+          "valueType": "tchmi:framework#/definitions/Path",
+          "value": "Images/Icons/notification_off.png"
         },
         "asyncWait": true
       },
       {
         "objectType": "WriteToSymbol",
         "active": true,
-        "symbolExpression": "%ctrl%Menu_Button::BackgroundImageWidth%/ctrl%",
+        "symbolExpression": "%ctrl%Recipie_Button::BackgroundImage%/ctrl%",
         "value": {
           "objectType": "StaticValue",
-          "valueType": "tchmi:framework#/definitions/MeasurementValue",
-          "value": 80.0
+          "valueType": "tchmi:framework#/definitions/Path",
+          "value": "Images/Icons/folder_on.png"
         },
         "asyncWait": true
       }
@@ -277,41 +266,106 @@
 ]
 </script>
 
-<script data-tchmi-target-attribute="data-tchmi-border-width" type="application/json">
+<script data-tchmi-target-attribute="data-tchmi-border-radius" type="application/json">
 {
-  "left": 2,
-  "right": 2,
-  "top": 2,
-  "bottom": 2,
-  "leftUnit": "px",
-  "rightUnit": "px",
-  "topUnit": "px",
-  "bottomUnit": "px"
+  "topLeft": 10.0,
+  "topRight": 10.0,
+  "bottomLeft": 10.0,
+  "bottomRight": 10.0,
+  "topLeftUnit": "px",
+  "topRightUnit": "px",
+  "bottomLeftUnit": "px",
+  "bottomRightUnit": "px"
 }
 </script>
 </div>
-<div id="LightControl_Button" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="82" data-tchmi-height-unit="px" data-tchmi-left="708" data-tchmi-left-unit="px" data-tchmi-top="368" data-tchmi-top-unit="px" data-tchmi-width="82" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-is-enabled="true" data-tchmi-ignore-escape-sequences="false" data-tchmi-icon="Images/Icons/light-bulb.png" data-tchmi-icon-width="80" data-tchmi-icon-height="80">
+<div id="Alarm_Button" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="80" data-tchmi-height-unit="px" data-tchmi-left="710" data-tchmi-left-unit="px" data-tchmi-top="111" data-tchmi-top-unit="px" data-tchmi-width="80" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-background-image-width="75" data-tchmi-background-image-height="75" data-tchmi-background-image="Images/Icons/notification_off.png" data-tchmi-zindex="1">
 <script data-tchmi-target-attribute="data-tchmi-background-color" type="application/json">
 {
   "color": "None"
 }
 </script>
 
-<script data-tchmi-target-attribute="data-tchmi-border-style" type="application/json">
+<script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
+[
+  {
+    "event": "Alarm_Button.onPressed",
+    "actions": [
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%ctrl%ContentRegion::TargetContent%/ctrl%",
+        "value": {
+          "objectType": "StaticValue",
+          "valueType": "tchmi:framework#/definitions/ContentPath",
+          "value": "Content/AlarmPage.content"
+        },
+        "asyncWait": true
+      },
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%ctrl%Home_Button::BackgroundImage%/ctrl%",
+        "value": {
+          "objectType": "StaticValue",
+          "valueType": "tchmi:framework#/definitions/Path",
+          "value": "Images/Icons/home_off.png"
+        },
+        "asyncWait": true
+      },
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%ctrl%Alarm_Button::BackgroundImage%/ctrl%",
+        "value": {
+          "objectType": "StaticValue",
+          "valueType": "tchmi:framework#/definitions/Path",
+          "value": "Images/Icons/notification_on.png"
+        },
+        "asyncWait": true
+      },
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%ctrl%Recipie_Button::BackgroundImage%/ctrl%",
+        "value": {
+          "objectType": "StaticValue",
+          "valueType": "tchmi:framework#/definitions/Path",
+          "value": "Images/Icons/folder_off.png"
+        },
+        "asyncWait": true
+      }
+    ]
+  }
+]
+</script>
+
+<script data-tchmi-target-attribute="data-tchmi-border-radius" type="application/json">
 {
-  "left": "Solid",
-  "right": "Solid",
-  "top": "Solid",
-  "bottom": "Solid"
+  "topLeft": 10.0,
+  "topRight": 10.0,
+  "bottomLeft": 10.0,
+  "bottomRight": 10.0,
+  "topLeftUnit": "px",
+  "topRightUnit": "px",
+  "bottomLeftUnit": "px",
+  "bottomRightUnit": "px"
+}
+</script>
+</div>
+<div id="LightControl_Button" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="80" data-tchmi-height-unit="px" data-tchmi-left="710" data-tchmi-left-unit="px" data-tchmi-top="378" data-tchmi-top-unit="px" data-tchmi-width="80" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-background-image-width="75" data-tchmi-background-image-height="75" data-tchmi-background-image="Images/Icons/switch_off.png" data-tchmi-zindex="1">
+<script data-tchmi-target-attribute="data-tchmi-background-color" type="application/json">
+{
+  "color": "None"
 }
 </script>
 
 <script data-tchmi-target-attribute="data-tchmi-border-radius" type="application/json">
 {
-  "topLeft": 40.0,
-  "topRight": 40.0,
-  "bottomLeft": 40.0,
-  "bottomRight": 40.0,
+  "topLeft": 10.0,
+  "topRight": 10.0,
+  "bottomLeft": 10.0,
+  "bottomRight": 10.0,
   "topLeftUnit": "px",
   "topRightUnit": "px",
   "bottomLeftUnit": "px",
@@ -327,274 +381,119 @@
       {
         "objectType": "WriteToSymbol",
         "active": true,
-        "symbolExpression": "%ctrl%LightControl_Button::Visibility%/ctrl%",
+        "symbolExpression": "%ctrl%LightControl_Button::Transform%/ctrl%",
         "value": {
           "objectType": "StaticValue",
-          "valueType": "tchmi:framework#/definitions/Visibility",
-          "value": "Hidden"
+          "valueType": "tchmi:framework#/definitions/TransformList",
+          "value": [
+            {
+              "transformType": "Rotate",
+              "angle": 180.0
+            }
+          ]
         },
         "asyncWait": true
       }
     ]
-  }
-]
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-background-image-padding" type="application/json">
-{
-  "left": 0,
-  "right": 0,
-  "top": 0,
-  "bottom": 0,
-  "leftUnit": "px",
-  "rightUnit": "px",
-  "topUnit": "px",
-  "bottomUnit": "px"
-}
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-border-width" type="application/json">
-{
-  "left": 2,
-  "right": 2,
-  "top": 2,
-  "bottom": 2,
-  "leftUnit": "px",
-  "rightUnit": "px",
-  "topUnit": "px",
-  "bottomUnit": "px"
-}
-</script>
-</div>
-<div id="User_Button" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="82" data-tchmi-height-unit="px" data-tchmi-left="710" data-tchmi-left-unit="px" data-tchmi-top="98" data-tchmi-top-unit="px" data-tchmi-width="82" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-is-enabled="true" data-tchmi-ignore-escape-sequences="false" data-tchmi-icon="Images/Icons/user.png" data-tchmi-icon-width="80" data-tchmi-icon-height="80">
-<script data-tchmi-target-attribute="data-tchmi-background-color" type="application/json">
-{
-  "color": "None"
-}
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-border-style" type="application/json">
-{
-  "left": "Solid",
-  "right": "Solid",
-  "top": "Solid",
-  "bottom": "Solid"
-}
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-border-radius" type="application/json">
-{
-  "topLeft": 40.0,
-  "topRight": 40.0,
-  "bottomLeft": 40.0,
-  "bottomRight": 40.0,
-  "topLeftUnit": "px",
-  "topRightUnit": "px",
-  "bottomLeftUnit": "px",
-  "bottomRightUnit": "px"
-}
-</script>
-
-
-
-<script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
-[
+  },
   {
-    "event": "User_Button.onInitialized",
+    "event": "LightControl_Button.onPressed",
     "actions": [
       {
-        "objectType": "WriteToSymbol",
+        "objectType": "Condition",
         "active": true,
-        "symbolExpression": "%ctrl%User_Button::Visibility%/ctrl%",
-        "value": {
-          "objectType": "StaticValue",
-          "valueType": "tchmi:framework#/definitions/Visibility",
-          "value": "Hidden"
-        },
+        "parts": [
+          {
+            "if": [
+              {
+                "compare1": {
+                  "objectType": "Symbol",
+                  "valueType": "tchmi:framework#/definitions/Path",
+                  "symbolExpression": "%ctrl%LightControl_Button::BackgroundImage%/ctrl%"
+                },
+                "compare2": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:framework#/definitions/Path",
+                  "value": "Images/Icons/switch_off.png"
+                },
+                "compareOperator": "==",
+                "logic": null
+              }
+            ],
+            "then": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctrl%LightControl_Button::BackgroundImage%/ctrl%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:framework#/definitions/Path",
+                  "value": "Images/Icons/switch_on.png"
+                },
+                "asyncWait": true
+              },
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctrl%LightControl_Button::Transform%/ctrl%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:framework#/definitions/TransformList",
+                  "value": [
+                    {
+                      "transformType": "Rotate",
+                      "angle": 0.0
+                    }
+                  ]
+                },
+                "asyncWait": true
+              }
+            ]
+          },
+          {
+            "else": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctrl%LightControl_Button::BackgroundImage%/ctrl%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:framework#/definitions/Path",
+                  "value": "Images/Icons/switch_off.png"
+                },
+                "asyncWait": true
+              },
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctrl%LightControl_Button::Transform%/ctrl%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:framework#/definitions/TransformList",
+                  "value": [
+                    {
+                      "transformType": "Rotate",
+                      "angle": 180.0
+                    }
+                  ]
+                },
+                "asyncWait": true
+              }
+            ]
+          }
+        ],
         "asyncWait": true
       }
     ]
   }
 ]
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-background-image-padding" type="application/json">
-{
-  "left": 0,
-  "right": 0,
-  "top": 0,
-  "bottom": 0,
-  "leftUnit": "px",
-  "rightUnit": "px",
-  "topUnit": "px",
-  "bottomUnit": "px"
-}
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-border-width" type="application/json">
-{
-  "left": 2,
-  "right": 2,
-  "top": 2,
-  "bottom": 2,
-  "leftUnit": "px",
-  "rightUnit": "px",
-  "topUnit": "px",
-  "bottomUnit": "px"
-}
 </script>
 </div>
-<div id="Alarm_Button" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="82" data-tchmi-height-unit="px" data-tchmi-left="708" data-tchmi-left-unit="px" data-tchmi-top="278" data-tchmi-top-unit="px" data-tchmi-width="82" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-is-enabled="true" data-tchmi-ignore-escape-sequences="false" data-tchmi-icon="Images/Icons/notification.png" data-tchmi-icon-width="80" data-tchmi-icon-height="80">
-<script data-tchmi-target-attribute="data-tchmi-background-color" type="application/json">
+<div id="TcHmiRectangle_12" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiRectangle" data-tchmi-height="460" data-tchmi-height-unit="px" data-tchmi-left="700" data-tchmi-left-unit="px" data-tchmi-top="10" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-zindex="0" data-tchmi-radius-x="5" data-tchmi-radius-y="5" data-tchmi-is-enabled="true">
+
+<script data-tchmi-target-attribute="data-tchmi-fill-color" type="application/json">
 {
-  "color": "None"
-}
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-border-style" type="application/json">
-{
-  "left": "Solid",
-  "right": "Solid",
-  "top": "Solid",
-  "bottom": "Solid"
-}
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-border-radius" type="application/json">
-{
-  "topLeft": 40.0,
-  "topRight": 40.0,
-  "bottomLeft": 40.0,
-  "bottomRight": 40.0,
-  "topLeftUnit": "px",
-  "topRightUnit": "px",
-  "bottomLeftUnit": "px",
-  "bottomRightUnit": "px"
-}
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
-[
-  {
-    "event": "Alarm_Button.onInitialized",
-    "actions": [
-      {
-        "objectType": "WriteToSymbol",
-        "active": true,
-        "symbolExpression": "%ctrl%Alarm_Button::Visibility%/ctrl%",
-        "value": {
-          "objectType": "StaticValue",
-          "valueType": "tchmi:framework#/definitions/Visibility",
-          "value": "Hidden"
-        },
-        "asyncWait": true
-      }
-    ]
-  }
-]
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-background-image-padding" type="application/json">
-{
-  "left": 0,
-  "right": 0,
-  "top": 0,
-  "bottom": 0,
-  "leftUnit": "px",
-  "rightUnit": "px",
-  "topUnit": "px",
-  "bottomUnit": "px"
-}
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-border-width" type="application/json">
-{
-  "left": 2,
-  "right": 2,
-  "top": 2,
-  "bottom": 2,
-  "leftUnit": "px",
-  "rightUnit": "px",
-  "topUnit": "px",
-  "bottomUnit": "px"
-}
-</script>
-</div>
-<div id="Run_Button" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="82" data-tchmi-height-unit="px" data-tchmi-left="708" data-tchmi-left-unit="px" data-tchmi-top="188" data-tchmi-top-unit="px" data-tchmi-width="82" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-is-enabled="true" data-tchmi-ignore-escape-sequences="false" data-tchmi-icon="Images/Icons/play-button.png" data-tchmi-icon-width="80" data-tchmi-icon-height="80">
-<script data-tchmi-target-attribute="data-tchmi-background-color" type="application/json">
-{
-  "color": "None"
-}
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-border-style" type="application/json">
-{
-  "left": "Solid",
-  "right": "Solid",
-  "top": "Solid",
-  "bottom": "Solid"
-}
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-border-radius" type="application/json">
-{
-  "topLeft": 40.0,
-  "topRight": 40.0,
-  "bottomLeft": 40.0,
-  "bottomRight": 40.0,
-  "topLeftUnit": "px",
-  "topRightUnit": "px",
-  "bottomLeftUnit": "px",
-  "bottomRightUnit": "px"
-}
-</script>
-
-
-
-<script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
-[
-  {
-    "event": "Run_Button.onInitialized",
-    "actions": [
-      {
-        "objectType": "WriteToSymbol",
-        "active": true,
-        "symbolExpression": "%ctrl%Run_Button::Visibility%/ctrl%",
-        "value": {
-          "objectType": "StaticValue",
-          "valueType": "tchmi:framework#/definitions/Visibility",
-          "value": "Hidden"
-        },
-        "asyncWait": true
-      }
-    ]
-  }
-]
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-background-image-padding" type="application/json">
-{
-  "left": 0,
-  "right": 0,
-  "top": 0,
-  "bottom": 0,
-  "leftUnit": "px",
-  "rightUnit": "px",
-  "topUnit": "px",
-  "bottomUnit": "px"
-}
-</script>
-
-<script data-tchmi-target-attribute="data-tchmi-border-width" type="application/json">
-{
-  "left": 2,
-  "right": 2,
-  "top": 2,
-  "bottom": 2,
-  "leftUnit": "px",
-  "rightUnit": "px",
-  "topUnit": "px",
-  "bottomUnit": "px"
+  "color": "rgba(6, 6, 6, 1)"
 }
 </script>
 </div>

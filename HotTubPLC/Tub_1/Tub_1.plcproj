@@ -36,6 +36,9 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RecipeManager.TcRMO">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
@@ -44,6 +47,11 @@
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="RecipeManagement">
+      <DefaultResolution>Recipe Management, 3.3.1.0 (System)</DefaultResolution>
+      <Namespace>Recipe_Management</Namespace>
+      <SystemLibrary>true</SystemLibrary>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_ModbusSrv">
       <DefaultResolution>Tc2_ModbusSrv, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_ModbusSrv</Namespace>

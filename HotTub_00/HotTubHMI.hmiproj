@@ -19,7 +19,7 @@
     <TargetFramework>native1.12-tchmi</TargetFramework>
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
     <Name>HotTubHMI</Name>
-    <HmiCommunicationRouterPort>10101</HmiCommunicationRouterPort>
+    <HmiCommunicationRouterPort>10105</HmiCommunicationRouterPort>
     <HmiCommunicationServerAuthPort>13000</HmiCommunicationServerAuthPort>
     <HmiInitial>1.12.752.0</HmiInitial>
     <HmiRecent>1.12.756.1</HmiRecent>
@@ -110,8 +110,8 @@
   <ItemGroup>
     <Folder Include="Fonts\" />
     <Folder Include="Images" />
-    <Folder Include="Images\Manifest" />
     <Folder Include="Images\Icons" />
+    <Folder Include="Images\Manifest" />
     <Folder Include="Imports" />
     <Folder Include="Imports\Images" />
     <Folder Include="Imports\Videos" />
@@ -129,43 +129,70 @@
     <Content Include=".eslintrc.json">
       <Visible>false</Visible>
     </Content>
-    <Content Include="Content\RunPage.content">
+    <Content Include="Content\AlarmPage.content">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\down-arrow.png">
+    <Content Include="Content\HomePage.content">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\play-button.png">
+    <Content Include="Content\RecipiePage.content">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\recipiefolder.png">
+    <Content Include="Images\Icons\danger.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\light-bulb.png">
+    <Content Include="Images\Icons\folder_off.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\list.png">
+    <Content Include="Images\Icons\folder_on.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\notification.png">
+    <Content Include="Images\Icons\home_off.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\padlock.png">
+    <Content Include="Images\Icons\home_on.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\pencil.png">
+    <Content Include="Images\Icons\lock_off.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\settings.png">
+    <Content Include="Images\Icons\lock_on.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\unlock.png">
+    <Content Include="Images\Icons\notification_on.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\up-arrow.png">
+    <Content Include="Images\Icons\notification_off.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Images\Icons\user.png">
+    <Content Include="Images\Icons\switch_off.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\switch_on(1).png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\switch_on.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Icons\unlock_on.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\SaltBath2_MaintDoorsOpen.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\SaltBath2_TopOrtho_DoorsClosed.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\SaltBath2_TopOrtho_DoorsOpen.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\verified.gif">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\verified.mp4">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\verified.png">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Server\TcHmiLua\TcHmiLua.Config.default.json">
@@ -193,6 +220,15 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="Server\TcHmiUserManagement\TcHmiUserManagement.Storage.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Themes\Base\Images\Background.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Themes\Base\Images\Splash-320x534.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Themes\Base\Images\Splash-800x600.png">
       <SubType>Content</SubType>
     </Content>
     <Content Include="tsconfig.tpl.json">
@@ -270,19 +306,15 @@
       <SubType>Content</SubType>
       <Visible>true</Visible>
     </Content>
-    <Content Include="Themes\Base\Images\Splash-320x534.png">
+    <Content Include="Themes\Base\Images\Splash-320x534_old.png">
       <SubType>Content</SubType>
       <Visible>true</Visible>
     </Content>
-    <Content Include="Themes\Base\Images\Splash-420x200.png">
+    <Content Include="Themes\Base\Images\Splash-420x200_old.png">
       <SubType>Content</SubType>
       <Visible>true</Visible>
     </Content>
-    <Content Include="Themes\Base\Images\Splash-800x600.png">
-      <SubType>Content</SubType>
-      <Visible>true</Visible>
-    </Content>
-    <Content Include="Themes\Base\Images\Background.png">
+    <Content Include="Themes\Base\Images\Splash-800x600_old.png">
       <SubType>Content</SubType>
       <Visible>true</Visible>
     </Content>
