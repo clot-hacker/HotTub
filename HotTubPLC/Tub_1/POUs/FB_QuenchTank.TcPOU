@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
   <POU Name="FB_QuenchTank" Id="{a0e2e726-f3b1-46e4-a948-9b07cbe723bb}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_QuenchTank
 VAR_INPUT
@@ -29,12 +29,21 @@ END_VAR]]></Declaration>
 	ELSE
 		GVL.boOpenFillValve := FALSE;
 		bError := TRUE;
-		sErrorMsg := 'Timeout while filling tank - check float high level sensor';
+		sErrorMsg := 'Timeout while filling - check float high level sensor';
 	END_IF
 
 ELSIF sAction = 'drain' THEN
 	tmrDrainTimer(IN := TRUE, PT := tDrainTimeout);
-	GVL.boOpenDrainValve := TRUE;
+	IF NOT tmrDrainTimer.Q THEN
+		GVL.boOpenDrainValve := TRUE;
+		bError := FALSE;
+		sErrorMsg := '';		
+	ELSE
+		GVL.boOpenDrainValve := FALSE;
+		bError := TRUE;
+		sErrorMsg := 'Timeout while draining - check float low level sensor';
+	END_IF
+	
 	IF tmrDrainTimer.ET > tPumpEnableDelay THEN
 		GVL.boEnablePump := TRUE;
 	END_IF
@@ -74,6 +83,14 @@ END_VAR
       <LineId Id="43" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="18" Count="1" />
+      <LineId Id="79" Count="1" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="82" Count="0" />
       <LineId Id="32" Count="1" />
       <LineId Id="35" Count="1" />
       <LineId Id="24" Count="1" />

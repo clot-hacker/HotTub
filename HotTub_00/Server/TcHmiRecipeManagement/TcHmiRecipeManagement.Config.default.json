@@ -1,46 +1,4 @@
 {
-    "recipeList": {
-        "Test Recipe": {
-            "recipeTypeName": "Salt Bath Recipie",
-            "values": {
-                "PLC1.MAIN.tHeatSetDuration": "PT50S",
-                "PLC1.MAIN.tQuenchDuration": "PT7S"
-            }
-        },
-        "Test Recipe 2": {
-            "recipeTypeName": "Salt Bath Recipie",
-            "values": {
-                "PLC1.MAIN.tHeatSetDuration": "PT50S",
-                "PLC1.MAIN.tQuenchDuration": "PT7S"
-            }
-        }
-    },
-    "recipeTypeList": {
-        "Salt Bath Recipie": {
-            "members": {
-                "PLC1.MAIN.tHeatSetDuration": {
-                    "defaultValue": "PT0S",
-                    "enabled": true,
-                    "group": "",
-                    "order": 0,
-                    "schema": {},
-                    "symbol": "PLC1.MAIN.tHeatSetDuration",
-                    "unit": ""
-                },
-                "PLC1.MAIN.tQuenchDuration": {
-                    "defaultValue": "PT0S",
-                    "enabled": true,
-                    "group": "",
-                    "order": 1,
-                    "schema": {},
-                    "symbol": "PLC1.MAIN.tQuenchDuration",
-                    "unit": ""
-                }
-            },
-            "options": {
-                "enabled": "None"
-            },
-            "recipeTypeNames": []
-        }
-    }
+    "recipeList": {},
+    "recipeTypeList": {}
 }

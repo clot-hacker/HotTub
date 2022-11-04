@@ -25,9 +25,13 @@
     "alwaysStrict": false
   },
   "exclude": [
-    "$(Output).Path/"
+    "bin/"
   ],
   "include": [
-    "$(Beckhoff.TwinCAT.HMI.Framework).InstallPath/TcHmi.d.ts"
+    "../Packages/Beckhoff.TwinCAT.HMI.Framework.12.756.1/runtimes/native1.12-tchmi/TcHmi.d.ts"
+  ],
+  "files": [
+    "FormatRecipeList.ts",
+    "TestFunction.ts"
   ]
 }

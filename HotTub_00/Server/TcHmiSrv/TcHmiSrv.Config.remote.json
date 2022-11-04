@@ -1,6 +1,6 @@
 {
     "CERTIFICATEEXPIRATION": "P14000D",
-    "REQUIREAUTH": 1,
+    "REQUIREAUTH": 2,
     "VIRTUALDIRECTORIES": {
         "/": "www"
     }
