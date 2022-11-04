@@ -29,5 +29,9 @@
   ],
   "include": [
     "$(Beckhoff.TwinCAT.HMI.Framework).InstallPath/TcHmi.d.ts"
+  ],
+  "files": [
+    "FormatRecipeList.ts",
+    "TestFunction.ts"
   ]
 }

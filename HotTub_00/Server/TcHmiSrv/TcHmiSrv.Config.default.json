@@ -26,7 +26,110 @@
     "DEFAULTTIMEFORMATLOCALE": "client",
     "DEFAULTTIMEZONE": "client",
     "DEFAULTUSERGROUP": "__SystemUsers",
-    "DEFINITIONS": {},
+    "DEFINITIONS": {
+        "PLC1.ARRAY_1..100_OF-STRING-20": {
+            "items": {
+                "allOf": [
+                    {
+                        "maxLength": 20
+                    },
+                    {
+                        "$ref": "tchmi:general#/definitions/String"
+                    }
+                ]
+            },
+            "maxItems": 100,
+            "minItems": 100,
+            "startOffset": 1,
+            "type": "array"
+        },
+        "PLC1.ARRAY_1..100_OF-ST_Recipe": {
+            "items": {
+                "$ref": "#/definitions/PLC1.ST_Recipe"
+            },
+            "maxItems": 100,
+            "minItems": 100,
+            "startOffset": 1,
+            "type": "array"
+        },
+        "PLC1.ARRAY_1..25_OF-ST_Alarm": {
+            "items": {
+                "$ref": "#/definitions/PLC1.ST_Alarm"
+            },
+            "maxItems": 25,
+            "minItems": 25,
+            "startOffset": 1,
+            "type": "array"
+        },
+        "PLC1.ARRAY_1..5_OF-STRING-10": {
+            "items": {
+                "allOf": [
+                    {
+                        "maxLength": 10
+                    },
+                    {
+                        "$ref": "tchmi:general#/definitions/String"
+                    }
+                ]
+            },
+            "maxItems": 5,
+            "minItems": 5,
+            "startOffset": 1,
+            "type": "array"
+        },
+        "PLC1.ST_Alarm": {
+            "properties": {
+                "dtDateAndTime": {
+                    "$ref": "tchmi:general#/definitions/DATE_AND_TIME"
+                },
+                "nAlarmPriority": {
+                    "$ref": "tchmi:general#/definitions/USINT"
+                },
+                "sAlarmID": {
+                    "allOf": [
+                        {
+                            "maxLength": 10
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "sErrorMsg": {
+                    "allOf": [
+                        {
+                            "maxLength": 50
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "PLC1.ST_Recipe": {
+            "properties": {
+                "sRecipeName": {
+                    "allOf": [
+                        {
+                            "maxLength": 20
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "tHeatSetTime": {
+                    "$ref": "tchmi:general#/definitions/TIME"
+                },
+                "tQuenchTime": {
+                    "$ref": "tchmi:general#/definitions/TIME"
+                }
+            },
+            "type": "object"
+        }
+    },
     "DEFLATECOMPRESSIONLEVEL": 5,
     "DIAGNOSTICS_DOMAINS": [],
     "DISABLED_CONFIGURATION_HINTS": [],
@@ -51,6 +154,13 @@
             "PATH": "TcHmiLua\\",
             "PROCESSID": -1,
             "REQUIRED": true,
+            "STARTUPTYPE": 1
+        },
+        "TcHmiRecipeManagement": {
+            "ENABLED": true,
+            "NAME": "TcHmiRecipeManagement",
+            "PATH": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.RecipeManagement.12.756.1\\runtimes\\win-x64\\native\\",
+            "REQUIRED": false,
             "STARTUPTYPE": 1
         },
         "TcHmiSqliteLogger": {
@@ -2368,6 +2478,139 @@
             },
             "USEMAPPING": true
         },
+        "PLC1.MAIN.aRecipeBook": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::aRecipeBook",
+            "SCHEMA": {
+                "$ref": "tchmi:server#/definitions/PLC1.ARRAY_1..100_OF-ST_Recipe"
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.MAIN.aRecipes": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::aRecipes",
+            "SCHEMA": {
+                "$ref": "tchmi:server#/definitions/PLC1.ARRAY_1..5_OF-STRING-10"
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.MAIN.aiWaterTemp": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::aiWaterTemp",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/USINT"
+                    },
+                    {
+                        "attributes": {
+                            "TcAddressType": "Input"
+                        }
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.MAIN.bSaltCoverOn": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::bSaltCoverOn",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "comment": "salt furnace variables"
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.MAIN.biWaterLevelLow": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::biWaterLevelLow",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "attributes": {
+                            "TcAddressType": "Input"
+                        },
+                        "comment": "quench tank I/O"
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.MAIN.fbAlarmManager.aAlarmBuffer": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::fbAlarmManager::aAlarmBuffer",
+            "SCHEMA": {
+                "$ref": "tchmi:server#/definitions/PLC1.ARRAY_1..25_OF-ST_Alarm"
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.MAIN.fbRecipie.aRecipeNames": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::fbRecipie::aRecipeNames",
+            "SCHEMA": {
+                "$ref": "tchmi:server#/definitions/PLC1.ARRAY_1..100_OF-STRING-20"
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.MAIN.sMachineState": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::sMachineState",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "maxLength": 10
+                    },
+                    {
+                        "$ref": "tchmi:general#/definitions/String"
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.MAIN.tHeatSetDuration": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::tHeatSetDuration",
+            "SCHEMA": {
+                "$ref": "tchmi:general#/definitions/TIME"
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.MAIN.tQuenchDuration": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::MAIN::tQuenchDuration",
+            "SCHEMA": {
+                "$ref": "tchmi:general#/definitions/TIME"
+            },
+            "USEMAPPING": true
+        },
         "RefreshDefinitions": {
             "ACCESS": 3,
             "CUSTOMERDATA": "",
@@ -2674,6 +2917,166 @@
             "MAPPING": "Config",
             "OPTIONS": {},
             "SCHEMA": {},
+            "USEMAPPING": true
+        },
+        "TcHmiRecipeManagement.ActivateRecipe": {
+            "ACCESS": 3,
+            "DOMAIN": "TcHmiRecipeManagement",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "ActivateRecipe",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true,
+                "writeValue": {
+                    "properties": {
+                        "path": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "path"
+                    ],
+                    "type": "object"
+                }
+            },
+            "USEMAPPING": true
+        },
+        "TcHmiRecipeManagement.Config": {
+            "ACCESS": 0,
+            "DOMAIN": "TcHmiRecipeManagement",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "Config",
+            "OPTIONS": {},
+            "SCHEMA": {},
+            "USEMAPPING": true
+        },
+        "TcHmiRecipeManagement.GetActiveRecipes": {
+            "ACCESS": 3,
+            "DOMAIN": "TcHmiRecipeManagement",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "GetActiveRecipes",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true,
+                "items": {
+                    "recipe": {
+                        "type": "string"
+                    }
+                },
+                "type": "array",
+                "writeValue": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "description": "recipe name(s)",
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/VOID"
+                        }
+                    ]
+                }
+            },
+            "USEMAPPING": true
+        },
+        "TcHmiRecipeManagement.GetRecipes": {
+            "ACCESS": 3,
+            "DOMAIN": "TcHmiRecipeManagement",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "GetRecipes",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true,
+                "items": {
+                    "recipes": {
+                        "type": "string"
+                    }
+                },
+                "type": "array",
+                "writeValue": {
+                    "properties": {
+                        "recipeTypePath": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "recipeTypePath"
+                    ],
+                    "type": "object"
+                }
+            },
+            "USEMAPPING": true
+        },
+        "TcHmiRecipeManagement.ReadFromTarget": {
+            "ACCESS": 3,
+            "DOMAIN": "TcHmiRecipeManagement",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "ReadFromTarget",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true,
+                "properties": {
+                    "path": {
+                        "type": "string"
+                    },
+                    "values": {
+                        "additionalProperties": {},
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "writeValue": {
+                    "properties": {
+                        "path": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "path"
+                    ],
+                    "type": "object"
+                }
+            },
+            "USEMAPPING": true
+        },
+        "TcHmiRecipeManagement.UpdateRecipe": {
+            "ACCESS": 3,
+            "DOMAIN": "TcHmiRecipeManagement",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "UpdateRecipe",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true,
+                "properties": {
+                    "info": {
+                        "description": "List of updates made",
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object",
+                "writeValue": {
+                    "properties": {
+                        "path": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "path"
+                    ],
+                    "type": "object"
+                }
+            },
             "USEMAPPING": true
         },
         "TcHmiSqliteLogger.Clear": {
@@ -3239,8 +3642,23 @@
                 "LocalizeText": 3,
                 "Login": 3,
                 "Logout": 3,
+                "PLC1.MAIN.aRecipeBook": 3,
+                "PLC1.MAIN.aRecipes": 3,
+                "PLC1.MAIN.aiWaterTemp": 3,
+                "PLC1.MAIN.bSaltCoverOn": 3,
+                "PLC1.MAIN.biWaterLevelLow": 3,
+                "PLC1.MAIN.fbAlarmManager.aAlarmBuffer": 3,
+                "PLC1.MAIN.fbRecipie.aRecipeNames": 3,
+                "PLC1.MAIN.sMachineState": 3,
+                "PLC1.MAIN.tHeatSetDuration": 3,
+                "PLC1.MAIN.tQuenchDuration": 3,
                 "SetLocale": 3,
                 "SubscribeEvents": 3,
+                "TcHmiRecipeManagement.ActivateRecipe": 3,
+                "TcHmiRecipeManagement.GetActiveRecipes": 3,
+                "TcHmiRecipeManagement.GetRecipes": 3,
+                "TcHmiRecipeManagement.ReadFromTarget": 3,
+                "TcHmiRecipeManagement.UpdateRecipe": 3,
                 "TcHmiUserManagement.ChangePassword": 3,
                 "Unsubscribe": 3,
                 "UnsubscribeEvents": 3,

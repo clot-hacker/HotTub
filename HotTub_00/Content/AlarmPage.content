@@ -1,3 +1,52 @@
 ﻿<div id="AlarmPage" data-tchmi-type="TcHmi.Controls.System.TcHmiContent" data-tchmi-top="0" data-tchmi-left="0" data-tchmi-width="800" data-tchmi-height="640">
 
+<div id="TcHmiDatagrid" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiDatagrid" data-tchmi-height="618" data-tchmi-height-unit="px" data-tchmi-left="10" data-tchmi-left-unit="px" data-tchmi-top="10" data-tchmi-top-unit="px" data-tchmi-width="681" data-tchmi-width-unit="px">
+<script data-tchmi-target-attribute="data-tchmi-src-column" type="application/json">
+[
+  {
+    "name": "Test1",
+    "label": "Alarm Priority",
+    "control": "TextBlock",
+    "width": 150,
+    "widthUnit": "px",
+    "resize": true,
+    "sortable": false,
+    "minWidth": 150,
+    "minWidthUnit": "px",
+    "cellBackground": null,
+    "textColor": null,
+    "editable": false,
+    "horizontalAlignment": "Center",
+    "verticalAlignment": "Center",
+    "headerHorizontalAlignment": "Center",
+    "headerVerticalAlignment": "Center",
+    "ignoreEscapeSequences": false
+  },
+  {
+    "name": "Test2",
+    "label": "Column 2",
+    "control": "TextBlock",
+    "width": 150,
+    "widthUnit": "px",
+    "resize": true,
+    "sortable": true,
+    "minWidth": 150,
+    "minWidthUnit": "px",
+    "cellBackground": null,
+    "textColor": null,
+    "editable": false,
+    "horizontalAlignment": "Center",
+    "verticalAlignment": "Center",
+    "headerHorizontalAlignment": "Center",
+    "headerVerticalAlignment": "Center",
+    "ignoreEscapeSequences": false
+  }
+]
+</script>
+
+<script data-tchmi-target-attribute="data-tchmi-cell-content-padding" type="application/json">
+{"left":3,"leftUnit":"px","right":3,"rightUnit":"px","top":0,"topUnit":"px","bottom":0,"bottomUnit":"px"}
+</script>
+
+</div>
 </div>

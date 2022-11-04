@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <Itf Name="I_Gantry" Id="{d9401c02-923d-4a44-911f-974eae4830b9}">
+    <Declaration><![CDATA[INTERFACE I_Gantry
+]]></Declaration>
+    <Method Name="M_GetPosition" Id="{918de79c-a2c4-44d9-88bb-106942bfa85c}">
+      <Declaration><![CDATA[METHOD M_GetPosition : STRING
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	sCurrentPosition : STRING(20);
+END_VAR
+
+(*
+	Valid Positions:
+	'home' - both axes are at home position by operator door
+	'pre heat set' - gantry is above salt bath, waiting to enter
+	'setting shape' - tooling fixture is submurged in salt
+	'quenching' - tooling fixture is submurged in water
+	'moving' - gantry is in motion
+	'unknown' - gantry is in unknown position
+*)]]></Declaration>
+    </Method>
+    <Method Name="M_GoHeatSet" Id="{b2fee113-dc9c-42bd-98fa-d4c9e16facca}">
+      <Declaration><![CDATA[METHOD M_GoHeatSet : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_GoHome" Id="{78d72799-28d1-4803-80cc-22ca75a862d8}">
+      <Declaration><![CDATA[METHOD M_GoHome : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_GoPreHeatSet" Id="{31fd3951-8dc9-4e98-8331-5f2487f94405}">
+      <Declaration><![CDATA[METHOD M_GoPreHeatSet : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_GoQuench" Id="{4268bad1-3a93-47ab-be99-d1c487a6ce7b}">
+      <Declaration><![CDATA[METHOD M_GoQuench : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="FB_StackLight" Id="{822a6b09-ef75-4f52-b451-b45d7c9c7a65}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_StackLight
+VAR_INPUT
+	bBlinkEnabled		: BOOL;
+	sColor				: STRING(10);
+END_VAR
+VAR
+	bLightOnCycle		: BOOL;
+	tBlinkDelay			: TIME := T#500MS;
+	tmrBlinkTimer		: Tc2_Standard.TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bBlinkEnabled THEN
+	tmrBlinkTimer(IN := TRUE, PT := tBlinkDelay);
+	IF tmrBlinkTimer.Q AND bLightOnCycle THEN
+		bLightOnCycle := FALSE;
+		tmrBlinkTimer(IN := FALSE);
+		IF sColor = 'red' THEN
+			GVL.boStackLightRed := TRUE;
+			GVL.boStackLightYellow := FALSE;
+			GVL.boStackLightGreen := FALSE;
+		ELSIF sColor = 'yellow' THEN
+			GVL.boStackLightRed := FALSE;
+			GVL.boStackLightYellow := TRUE;
+			GVL.boStackLightGreen := FALSE;
+		ELSE
+			GVL.boStackLightRed := FALSE;
+			GVL.boStackLightYellow := FALSE;
+			GVL.boStackLightGreen := TRUE;
+		END_IF
+	ELSIF tmrBlinkTimer.Q AND (NOT bLightOnCycle) THEN
+		bLightOnCycle := TRUE;
+		tmrBlinkTimer(IN := FALSE);
+		GVL.boStackLightRed := FALSE;
+		GVL.boStackLightYellow := FALSE;
+		GVL.boStackLightGreen := FALSE;
+	END_IF
+ELSE
+	IF sColor = 'red' THEN
+		GVL.boStackLightRed := TRUE;
+		GVL.boStackLightYellow := FALSE;
+		GVL.boStackLightGreen := FALSE;
+	ELSIF sColor = 'yellow' THEN
+		GVL.boStackLightRed := FALSE;
+		GVL.boStackLightYellow := TRUE;
+		GVL.boStackLightGreen := FALSE;
+	ELSE
+		GVL.boStackLightRed := FALSE;
+		GVL.boStackLightYellow := FALSE;
+		GVL.boStackLightGreen := TRUE;
+	END_IF
+END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_StackLight">
+      <LineId Id="9" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="27" Count="21" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="53" Count="1" />
+      <LineId Id="70" Count="1" />
+      <LineId Id="55" Count="1" />
+      <LineId Id="73" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="79" Count="1" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="81" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

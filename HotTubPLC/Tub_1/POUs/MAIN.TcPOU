@@ -1,61 +1,320 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="MAIN" Id="{efa7bdf7-c0cf-482e-b1df-3f80349c525c}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	
-// general use variables
-sMachineState		: STRING(10);
-
-tTotalCycleTime 	: TIME;
-tHeatSetDuration	: TIME;
-tQuenchDuration		: TIME;
-
-fbFurnace 		: FB_Furnace;
-fbGantry 		: FB_Gantry;
-fbQuenchTank 	: FB_QuenchTank;
-
-
-// salt furnace variables
-
-
-// quench tank variables
-
+	// general use variables
+	bLocalVar_1				: BOOL;
+	bActivateTimeout		: BOOL;
+	bHighLevelAlarm			: BOOL;
+	bLowLevelAlarm			: BOOL;
+	nRetryCounter			: USINT;
+	tTotalCycleTime 		: TIME;
+	tTimeoutTime			: TIME;
+	sMachineState			: STRING(30);
+	sPrevMachineState		: STRING(30);
+	sErrorMsg				: STRING(50);
+	tmrProcessTimer			: Tc2_Standard.TON;
+	
+	// function block and interface definitions
+	fbFurnace 				: FB_Furnace;
+	fbGantry 				: FB_Gantry;
+	fbQuenchTank 			: FB_QuenchTank;
+	fbRecipie				: FB_Recipe;
+	fbAlarmManager			: FB_AlarmManager;
+	fbTimeout				: FB_Timeout;
+	fbStackLight			: FB_StackLight;
+	iGantry					: I_Gantry;
+	
+	// recipe variables
+	bCreateRecipe			: BOOL;
+	bEditRecipe         	: BOOL;
+	bDeleteRecipe			: BOOL;
+	tHeatSetTime			: TIME;
+	tQuenchTime				: TIME;
+	sRecipeName				: STRING(20);
+	
+	// salt furnace variables
+	bSaltCoverOn	    	: BOOL;	
+	
+	// quench tank variables
 
 END_VAR
-
-
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF sMachineState = 'Idle' THEN
+      <ST><![CDATA[// *** GANTRY CONTROL ********************************************************************************
+
+IF sMachineState = 'Startup' THEN
+	sMachineState := 'Navigating Home';
 	
+ELSIF sMachineState = 'Idle' THEN
+	sPrevMachineState := 'Idle';
+
 ELSIF sMachineState = 'Navigating to Start Position' THEN
-	
+	IF sPrevMachineState <> 'Navigating to Start Position' THEN
+		sPrevMachineState := 'Navigating to Start Position';
+		iGantry.M_GoPreHeatSet();
+		fbTimeout(bActivate := FALSE);
+		bActivateTimeout := TRUE;
+		tTimeoutTime := T#20S;
+		nRetryCounter := 0;
+	END_IF
+
+	IF iGantry.M_GetPosition() = 'pre heat set' THEN
+		sMachineState := 'Waiting for Start';
+	ELSIF fbTimeout.nAttempts >= 3 THEN
+		sMachineState := 'Help Required';
+		sErrorMsg := 'Unable to move to start pos from home';
+	ELSIF fbTimeout.nAttempts > nRetryCounter THEN
+		iGantry.M_GoPreHeatSet();
+		nRetryCounter := nRetryCounter + 1;
+	END_IF
+
 ELSIF sMachineState = 'Waiting for Start' THEN
+    RETURN;
+	
+ELSIF sMachineState = 'Getting Salty' THEN
+	IF sPrevMachineState <> 'Getting Salty' THEN
+		sPrevMachineState := 'Getting Salty';
+	    iGantry.M_GoHeatSet();
+		fbTimeout(bActivate := FALSE);
+		bActivateTimeout := TRUE;
+		tTimeoutTime := T#10S;
+		nRetryCounter := 0;
+	END_IF
+
+	IF iGantry.M_GetPosition() = 'setting shape' THEN
+		sMachineState := 'Heat Soaking';
+	ELSIF fbTimeout.nAttempts >= 3 THEN
+		sMachineState := 'Help Required';
+		sErrorMsg := 'Unable to enter salt bath';
+	ELSIF fbTimeout.nAttempts > nRetryCounter THEN
+		iGantry.M_GoHeatSet();
+		nRetryCounter := nRetryCounter + 1;
+	END_IF
 	
 ELSIF sMachineState = 'Heat Soaking' THEN
+	IF sPrevMachineState <> 'Heat Soaking' THEN
+		sPrevMachineState := 'Heat Soaking';
+		tmrProcessTimer(IN := FALSE);
+	END_IF
+	
+	tmrProcessTimer(IN := TRUE, PT := tHeatSetTime);
+	IF tmrProcessTimer.Q THEN
+		sMachineState := 'Navigating to Quench';
+	END_IF
 	
 ELSIF sMachineState = 'Navigating to Quench' THEN
-	
+	IF sPrevMachineState <> 'Navigating to Quench' THEN
+		sPrevMachineState := 'Navigating to Quench';
+		iGantry.M_GoQuench();
+		fbTimeout(bActivate := FALSE);
+		bActivateTimeout := TRUE;
+		tTimeoutTime := T#10S;
+		nRetryCounter := 0;
+	END_IF
+
+	IF iGantry.M_GetPosition() = 'quenching' THEN
+		sMachineState := 'Quenching';
+	ELSIF fbTimeout.nAttempts >= 3 THEN
+		sMachineState := 'Help Required';
+		sErrorMsg := 'Unable to navigate from heat to quench';
+	ELSIF fbTimeout.nAttempts > nRetryCounter THEN
+		iGantry.M_GoHeatSet();
+		nRetryCounter := nRetryCounter + 1;
+	END_IF	
+
 ELSIF sMachineState = 'Quenching' THEN
+	IF sPrevMachineState <> 'Quenching' THEN
+		sPrevMachineState := 'Quenching';
+		tmrProcessTimer(IN := FALSE);
+	END_IF
+	
+	tmrProcessTimer(IN := TRUE, PT := tQuenchTime);
+	IF tmrProcessTimer.Q THEN
+		sMachineState := 'Navigating Home';
+	END_IF
 	
 ELSIF sMachineState = 'Navigating Home' THEN
+	IF sPrevMachineState <> 'Navigating Home' THEN
+		sPrevMachineState := 'Navigating Home';
+		iGantry.M_GoHome();
+		fbTimeout(bActivate := FALSE);
+		bActivateTimeout := TRUE;
+		tTimeoutTime := T#20S;
+		nRetryCounter := 0;
+	END_IF
 	
-END_IF]]></ST>
+	IF iGantry.M_GetPosition() = 'Home' THEN
+		sMachineState := 'Idle';
+	ELSIF fbTimeout.nAttempts >= 3 THEN
+		sMachineState := 'Help Required';
+		sErrorMsg := 'Unable to move to start pos from home';
+	ELSIF fbTimeout.nAttempts > nRetryCounter THEN
+		iGantry.M_GoPreHeatSet();
+		nRetryCounter := nRetryCounter + 1;
+	END_IF
+	
+END_IF
+
+fbTimeout(bActivate := bActivateTimeout, tDuration := tTimeoutTime);
+
+
+// *** RECIPE ACTIONS *********************************************************************************
+
+IF bCreateRecipe THEN
+	bCreateRecipe := FALSE;
+	fbRecipie.M_Create(sName := sRecipeName, 
+					   tIngredient_1 := tHeatSetTime, 
+					   tIngredient_2 := tQuenchTime);
+END_IF
+
+IF bEditRecipe THEN
+	bEditRecipe := FALSE;
+	fbRecipie.M_Edit(sName := sRecipeName, 
+					 tNewIngredient_1 := tHeatSetTime, 
+					 tNewIngredient_2 := tQuenchTime);
+END_IF
+
+IF bDeleteRecipe THEN
+	bDeleteRecipe := FALSE;
+	fbRecipie.M_Delete(sName := sRecipeName);
+END_IF
+
+
+// *** QUENCH TANK OPERATION ***************************************************************************
+
+
+
+
+// *** STACK LIGHT OPERATION ***************************************************************************
+
+IF sMachineState = 'Idle' THEN
+	IF bHighLevelAlarm THEN
+		fbStackLight(bBlinkEnabled := FALSE, sColor := 'red');
+	ELSIF bLowLevelAlarm THEN
+		fbStackLight(bBlinkEnabled := FALSE, sColor := 'yellow');
+	ELSE
+		fbStackLight(bBlinkEnabled := FALSE, sColor := 'green');
+	END_IF	
+ELSE
+	IF bHighLevelAlarm THEN
+		fbStackLight(bBlinkEnabled := TRUE, sColor := 'red');
+	ELSIF bLowLevelAlarm THEN
+		fbStackLight(bBlinkEnabled := TRUE, sColor := 'yellow');
+	ELSE
+		fbStackLight(bBlinkEnabled := TRUE, sColor := 'green');
+	END_IF	
+END_IF
+
+
+]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="94" Count="0" />
-      <LineId Id="97" Count="0" />
+      <LineId Id="381" Count="1" />
+      <LineId Id="168" Count="0" />
+      <LineId Id="533" Count="0" />
+      <LineId Id="585" Count="0" />
+      <LineId Id="366" Count="0" />
+      <LineId Id="241" Count="0" />
+      <LineId Id="451" Count="0" />
       <LineId Id="99" Count="0" />
+      <LineId Id="452" Count="1" />
+      <LineId Id="455" Count="0" />
+      <LineId Id="530" Count="0" />
+      <LineId Id="505" Count="0" />
+      <LineId Id="507" Count="0" />
+      <LineId Id="506" Count="0" />
+      <LineId Id="454" Count="0" />
+      <LineId Id="513" Count="0" />
+      <LineId Id="509" Count="0" />
+      <LineId Id="531" Count="0" />
+      <LineId Id="514" Count="0" />
+      <LineId Id="521" Count="0" />
+      <LineId Id="515" Count="0" />
+      <LineId Id="503" Count="0" />
+      <LineId Id="510" Count="0" />
+      <LineId Id="512" Count="0" />
+      <LineId Id="511" Count="0" />
       <LineId Id="133" Count="1" />
+      <LineId Id="242" Count="0" />
+      <LineId Id="250" Count="0" />
+      <LineId Id="243" Count="0" />
+      <LineId Id="457" Count="2" />
+      <LineId Id="535" Count="2" />
+      <LineId Id="534" Count="0" />
+      <LineId Id="456" Count="0" />
+      <LineId Id="538" Count="0" />
+      <LineId Id="540" Count="7" />
       <LineId Id="102" Count="0" />
-      <LineId Id="135" Count="1" />
-      <LineId Id="138" Count="1" />
+      <LineId Id="539" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="549" Count="1" />
+      <LineId Id="552" Count="0" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="556" Count="4" />
+      <LineId Id="251" Count="0" />
+      <LineId Id="460" Count="0" />
+      <LineId Id="467" Count="2" />
+      <LineId Id="570" Count="2" />
+      <LineId Id="569" Count="0" />
+      <LineId Id="470" Count="0" />
+      <LineId Id="575" Count="8" />
+      <LineId Id="573" Count="0" />
+      <LineId Id="246" Count="0" />
       <LineId Id="137" Count="0" />
+      <LineId Id="561" Count="7" />
       <LineId Id="142" Count="0" />
+      <LineId Id="252" Count="0" />
       <LineId Id="141" Count="0" />
-      <LineId Id="140" Count="0" />
+      <LineId Id="471" Count="1" />
+      <LineId Id="474" Count="0" />
+      <LineId Id="529" Count="0" />
+      <LineId Id="518" Count="2" />
+      <LineId Id="473" Count="0" />
+      <LineId Id="488" Count="0" />
+      <LineId Id="475" Count="0" />
+      <LineId Id="477" Count="0" />
+      <LineId Id="523" Count="5" />
+      <LineId Id="478" Count="0" />
+      <LineId Id="480" Count="0" />
       <LineId Id="98" Count="0" />
+      <LineId Id="499" Count="0" />
+      <LineId Id="498" Count="0" />
+      <LineId Id="380" Count="0" />
+      <LineId Id="338" Count="1" />
+      <LineId Id="253" Count="0" />
+      <LineId Id="167" Count="0" />
+      <LineId Id="356" Count="0" />
+      <LineId Id="271" Count="0" />
+      <LineId Id="697" Count="0" />
+      <LineId Id="360" Count="0" />
+      <LineId Id="263" Count="0" />
+      <LineId Id="373" Count="2" />
+      <LineId Id="377" Count="0" />
+      <LineId Id="700" Count="0" />
+      <LineId Id="699" Count="0" />
+      <LineId Id="376" Count="0" />
+      <LineId Id="344" Count="0" />
+      <LineId Id="361" Count="1" />
+      <LineId Id="364" Count="0" />
+      <LineId Id="363" Count="0" />
+      <LineId Id="692" Count="2" />
+      <LineId Id="696" Count="0" />
+      <LineId Id="695" Count="0" />
+      <LineId Id="384" Count="1" />
+      <LineId Id="383" Count="0" />
+      <LineId Id="617" Count="0" />
+      <LineId Id="387" Count="0" />
+      <LineId Id="610" Count="5" />
+      <LineId Id="609" Count="0" />
+      <LineId Id="616" Count="0" />
+      <LineId Id="602" Count="5" />
+      <LineId Id="600" Count="1" />
+      <LineId Id="619" Count="0" />
+      <LineId Id="618" Count="0" />
+      <LineId Id="591" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="FB_AlarmManager" Id="{c5be2f96-c55a-41d0-80c3-baa0954f0294}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AlarmManager
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	aAlarmBuffer			: ARRAY[1..25] OF ST_Alarm;
+END_VAR
+VAR PERSISTENT
+	aAlarmHistory			: ARRAY[1..100] OF ST_Alarm;
+END_VAR
+VAR
+	nAlarmBufferSize		: USINT := 25;
+	nAlarmHistorySize 		: USINT := 100;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Add" Id="{16147c9d-b68e-4b50-8ed2-44a0cdd145f8}">
+      <Declaration><![CDATA[METHOD M_Add : BOOL
+VAR_INPUT
+	nAlarmPriority		: USINT;
+	sErrorMsg 			: STRING(50);
+END_VAR
+VAR
+	nItem				: USINT;
+	nIndex				: USINT := 1;
+	stNewAlarm			: ST_Alarm;
+	stTempAlarm_1		: ST_Alarm;
+	stTempAlarm_2		: ST_Alarm;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// store new alarm into ST_Alarm format
+stNewAlarm.nAlarmPriority := nAlarmPriority;
+stNewAlarm.sErrorMsg := sErrorMsg;
+// stNewAlarm.dtDateAndTime := Tc2_Utilities.SYSTEMTIME_TO_DT;
+
+// store new alarm at top of buffer
+stTempAlarm_1 := aAlarmBuffer[1];
+aAlarmBuffer[1] := stNewAlarm;
+nIndex := 2;
+
+// move all older alarms down
+WHILE ((aAlarmBuffer[nItem].sErrorMsg <> '') AND (nIndex < 25)) DO
+	stTempAlarm_2 := aAlarmBuffer[nIndex];
+	aAlarmBuffer[nIndex] := stTempAlarm_1;
+	stTempAlarm_1 := stTempAlarm_2;
+	nIndex := nIndex + 1;
+END_WHILE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Dismiss" Id="{eb7ebf00-dc70-4154-b77c-67f0ce25e28a}">
+      <Declaration><![CDATA[METHOD M_Dismiss : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AlarmManager">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AlarmManager.M_Add">
+      <LineId Id="44" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="39" Count="2" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="26" Count="1" />
+      <LineId Id="49" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AlarmManager.M_Dismiss">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

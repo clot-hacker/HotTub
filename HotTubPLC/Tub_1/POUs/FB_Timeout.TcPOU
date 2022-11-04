@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="FB_Timeout" Id="{8b3cd484-6b5d-4ac8-952c-5394659be4cb}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Timeout
+VAR_INPUT
+	bActivate			: BOOL;
+	tDuration			: TIME;
+END_VAR
+VAR_OUTPUT
+	nAttempts			: USINT := 0;
+END_VAR
+VAR
+	bTimerEnable		: BOOL := TRUE;
+	tmrTimeoutTimer		: Tc2_Standard.TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bActivate THEN
+	tmrTimeoutTimer(IN := bTimerEnable, PT := tDuration);
+	IF tmrTimeoutTimer.Q THEN
+		nAttempts := nAttempts + 1;
+		tmrTimeoutTimer(IN := FALSE);
+	END_IF
+	
+ELSE
+	nAttempts := 0;
+	bTimerEnable := TRUE;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Timeout">
+      <LineId Id="9" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="17" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

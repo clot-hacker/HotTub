@@ -29,5 +29,9 @@
   ],
   "include": [
     "../Packages/Beckhoff.TwinCAT.HMI.Framework.12.756.1/runtimes/native1.12-tchmi/TcHmi.d.ts"
+  ],
+  "files": [
+    "FormatRecipeList.ts",
+    "TestFunction.ts"
   ]
 }

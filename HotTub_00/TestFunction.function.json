@@ -1,0 +1,46 @@
+﻿{
+  "function": {
+    "name": "TestFunction",
+    "namespace": "TcHmi.Functions.HotTub_00",
+    "displayName": "TestFunction",
+    "description": "",
+    "waitMode": "Synchronous",
+    "category": "",
+    "returnValue": {
+      "type": "tchmi:general#/definitions/FLOAT",
+      "description": "Test Value"
+    },
+    "visible": true,
+    "injectContextObject": false,
+    "arguments": [
+      {
+        "name": "x",
+        "displayName": "x",
+        "type": "tchmi:general#/definitions/FLOAT",
+        "description": "",
+        "defaultValue": 0.0,
+        "required": true,
+        "bindable": true,
+        "restParameter": false,
+        "asReference": false,
+        "allowControlAttributeBindingOptions": false
+      }
+    ]
+  },
+  "$schema": "./../Packages/Beckhoff.TwinCAT.HMI.Framework.12.756.1/runtimes/native1.12-tchmi/Schema/FunctionDescription.Schema.json",
+  "apiVersion": 1,
+  "version": {
+    "full": "0.0.0.0",
+    "major": 0,
+    "minor": 0,
+    "revision": 0,
+    "build": 0
+  },
+  "dependencyFiles": [
+    {
+      "name": "TestFunction.js",
+      "type": "JavaScript",
+      "description": ""
+    }
+  ]
+}

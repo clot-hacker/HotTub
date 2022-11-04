@@ -48,6 +48,16 @@
       "name": "Fonts/Fonts.css",
       "description": "",
       "type": "Stylesheet"
+    },
+    {
+      "name": "FormatRecipeList.js",
+      "description": "",
+      "type": "JavaScript"
+    },
+    {
+      "name": "TestFunction.js",
+      "description": "",
+      "type": "JavaScript"
     }
   ],
   "userControls": [],
@@ -61,6 +71,27 @@
     },
     {
       "url": "Content/HomePage.content",
+      "preload": false,
+      "keepAlive": false,
+      "loadSync": false,
+      "preloadBindings": false
+    },
+    {
+      "url": "Content/RecipePage-Blank.content",
+      "preload": false,
+      "keepAlive": false,
+      "loadSync": false,
+      "preloadBindings": false
+    },
+    {
+      "url": "Content/RecipePage-EditRecipe.content",
+      "preload": false,
+      "keepAlive": false,
+      "loadSync": false,
+      "preloadBindings": false
+    },
+    {
+      "url": "Content/RecipePage-NewRecipe.content",
       "preload": false,
       "keepAlive": false,
       "loadSync": false,
@@ -82,7 +113,14 @@
       "preloadBindings": false
     }
   ],
-  "userFunctions": [],
+  "userFunctions": [
+    {
+      "url": "FormatRecipeList.js"
+    },
+    {
+      "url": "TestFunction.js"
+    }
+  ],
   "symbols": {
     "internal": {}
   },
@@ -120,6 +158,9 @@
   "keyboardLayouts": [
     {
       "url": "KeyboardLayouts/German - compact.keyboard.json"
+    },
+    {
+      "url": "KeyboardLayouts/Numpad - indirect.keyboard.json"
     },
     {
       "url": "KeyboardLayouts/US - compact.keyboard.json"

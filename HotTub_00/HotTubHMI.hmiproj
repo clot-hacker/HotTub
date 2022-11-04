@@ -19,7 +19,7 @@
     <TargetFramework>native1.12-tchmi</TargetFramework>
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
     <Name>HotTubHMI</Name>
-    <HmiCommunicationRouterPort>10105</HmiCommunicationRouterPort>
+    <HmiCommunicationRouterPort>10109</HmiCommunicationRouterPort>
     <HmiCommunicationServerAuthPort>13000</HmiCommunicationServerAuthPort>
     <HmiInitial>1.12.752.0</HmiInitial>
     <HmiRecent>1.12.756.1</HmiRecent>
@@ -118,6 +118,7 @@
     <Folder Include="KeyboardLayouts\" />
     <Folder Include="Localization" />
     <Folder Include="Content" />
+    <Folder Include="Server\TcHmiRecipeManagement" />
     <Folder Include="Themes" />
     <Folder Include="Themes\Base-Dark\Images\" />
     <Folder Include="Themes\Base\" />
@@ -135,7 +136,23 @@
     <Content Include="Content\HomePage.content">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Content\RecipePage-Blank.content">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Content\RecipePage-EditRecipe.content">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Content\RecipePage-NewRecipe.content">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Content\RecipiePage.content">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="FormatRecipeList.function.json">
+      <SubType>Content</SubType>
+      <DependentUpon>FormatRecipeList.ts</DependentUpon>
+    </Content>
+    <Content Include="FormatRecipeList.ts">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Images\Icons\danger.png">
@@ -195,6 +212,9 @@
     <Content Include="Images\verified.png">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="KeyboardLayouts\Numpad - indirect.keyboard.json">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Server\TcHmiLua\TcHmiLua.Config.default.json">
       <SubType>Content</SubType>
     </Content>
@@ -202,6 +222,15 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="Server\TcHmiLua\TcHmiLua.Storage.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Server\TcHmiRecipeManagement\TcHmiRecipeManagement.Config.default.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Server\TcHmiRecipeManagement\TcHmiRecipeManagement.Config.remote.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Server\TcHmiRecipeManagement\TcHmiRecipeManagement.Storage.json">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Server\TcHmiSqliteLogger\TcHmiSqliteLogger.Config.default.json">
@@ -220,6 +249,19 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="Server\TcHmiUserManagement\TcHmiUserManagement.Storage.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="TestFunction.function.json">
+      <SubType>Content</SubType>
+      <DependentUpon>TestFunction.ts</DependentUpon>
+    </Content>
+    <Content Include="TestFunction.ts">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Themes\Base\Images\Background_orange.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Themes\Base\Images\Background_orgPapercut.png">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Themes\Base\Images\Background.png">

@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="FB_Recipe" Id="{b4198a36-65da-4222-8d3e-14fa98442687}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC FB_Recipe
+VAR_INPUT
+	bCreateRecipe		: BOOL;
+	bEditRecipe         : BOOL;
+	bDeleteRecipe		: BOOL;
+	tHeatSetTime		: TIME;
+	tQuenchTime			: TIME;
+	sRecipeName			: STRING(20);
+	stRecipeIn			: ST_Recipe;
+END_VAR
+
+VAR_OUTPUT
+	stRecipeOut			: ST_Recipe;
+END_VAR
+
+VAR
+	nCounter_1			: INT;
+	nMaxRecipes			: INT := 100;
+END_VAR
+
+VAR PERSISTENT 
+    aRecipeBook			: ARRAY[1..100] OF ST_Recipe;
+	aRecipeNames		: ARRAY[1..100] OF STRING(20);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Create" Id="{789aa0a5-f168-4631-a4e5-4b7480ae637c}">
+      <Declaration><![CDATA[METHOD M_Create : ST_Recipe
+VAR_INPUT
+	sName				: STRING(20);
+	tIngredient_1 		: TIME;
+	tIngredient_2 		: TIME;
+	
+END_VAR
+VAR_OUTPUT
+	bCreateSuceessful	:BOOL;
+	sErrorMsg			:STRING(30) := 'None';
+END_VAR
+VAR
+	stRecipe			: ST_Recipe;
+	nCounter			: INT;
+	bDuplicateFound		: BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// check for duplicates
+WHILE NOT (bDuplicateFound) AND (nCounter <= nMaxRecipes) DO
+	FOR nCounter := 1 TO nMaxRecipes DO
+		IF aRecipeBook[nCounter].sRecipeName = sName THEN
+			bDuplicateFound := TRUE;
+			sErrorMsg := 'Duplicate recipe name found';
+			bCreateSuceessful := FALSE;
+		END_IF
+	END_FOR
+END_WHILE
+
+// check recipe array for empty spot
+IF NOT bDuplicateFound THEN
+	nCounter := 1;
+	WHILE (aRecipeBook[nCounter].sRecipeName <> '') AND (nCounter <= nMaxRecipes) DO
+		nCounter := nCounter + 1;
+	END_WHILE
+	
+	// check for full recipe array
+	IF nCounter > nMaxRecipes THEN
+		sErrorMsg := 'Recipe book full';
+		bCreateSuceessful := FALSE;
+		
+	// if no duplicates, fill next available recipe slot	
+	ELSIF NOT bDuplicateFound THEN
+		stRecipe.sRecipeName := sName;
+		stRecipe.tHeatSetTime := tIngredient_1;
+		stRecipe.tQuenchTime := tIngredient_2;
+		aRecipeBook[nCounter] := stRecipe;
+		bCreateSuceessful := TRUE;
+		M_UpdateRecipeNames();
+	END_IF
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Delete" Id="{9a285bd6-1b35-4cdf-8070-246e1f8a2082}">
+      <Declaration><![CDATA[METHOD M_Delete : BOOL
+VAR_INPUT
+	sName				: STRING(20);
+END_VAR
+VAR_OUTPUT
+	bDeleteSuccessful 	: BOOL;
+END_VAR
+VAR
+	nCounter 			: INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nCounter := 1;
+WHILE (aRecipeBook[nCounter].sRecipeName <> sName) AND (nCounter <= nMaxRecipes) DO
+	nCounter := nCounter + 1;
+END_WHILE
+
+IF nCounter > nMaxRecipes THEN
+	bDeleteSuccessful := FALSE;
+ELSE
+	aRecipeBook[nCounter].sRecipeName := '';
+	aRecipeBook[nCounter].tHeatSetTime := T#0S;
+	aRecipeBook[nCounter].tQuenchTime := T#0S;
+	bDeleteSuccessful := TRUE;
+	M_UpdateRecipeNames();
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Edit" Id="{36cee79e-3e26-448d-a779-b9438a128454}">
+      <Declaration><![CDATA[METHOD M_Edit : BOOL
+VAR_INPUT
+	sName				: STRING(20);
+	tNewIngredient_1 	: TIME;
+	tNewIngredient_2 	: TIME;
+END_VAR
+VAR_OUTPUT
+	bEditSuccessful 	: BOOL;
+	sErrorMsg			: STRING(30);
+	stRecipeOut			: ST_Recipe;
+END_VAR
+VAR
+	nCounter			: INT := 1;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// find recipe in recipe book
+WHILE (aRecipeBook[nCounter].sRecipeName <> sName) AND (nCounter <= nMaxRecipes) DO
+	nCounter := nCounter + 1;
+END_WHILE
+
+// check if recipe not found
+IF nCounter > nMaxRecipes THEN
+	sErrorMsg := 'Recipe not found';
+	bEditSuccessful := FALSE;
+	
+// update time values
+ELSE
+	aRecipeBook[nCounter].tHeatSetTime := tNewIngredient_1;
+	aRecipeBook[nCounter].tQuenchTime := tNewIngredient_2;
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_OrderList" Id="{392bedb9-e486-4e01-b047-423d7d7c7ecc}">
+      <Declaration><![CDATA[METHOD M_OrderList : BOOL
+VAR_INPUT
+	sName			: STRING(20);
+END_VAR
+VAR
+	nCounter		: INT := 1;
+	nStrLen_1		: INT;
+	nStrLen_2		: INT;
+	sString_1		: STRING(20);
+	sString_2		: STRING(20);
+	sPlaceholder	: STRING(20);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[WHILE nCounter < nMaxRecipes DO
+	// store nth and nth + 1 string as uppercase
+	sString_1 := aRecipeNames[nCounter];
+	sString_2 := aRecipeNames[nCounter + 1];
+	sString_1 := F_ToUCase(sString_1);
+	sString_2 := F_ToUCase(sString_2);
+	
+	// store string lengths
+	nStrLen_1 := LEN(STR := sString_1);
+	nStrLen_2 := LEN(STR := sString_2);
+	
+	// check if 1st string empty and 2nd string not
+	IF nStrLen_1 = 0 AND nStrLen_2 <> 0 THEN
+		// replcae 1st str with 2nd str
+		aRecipeNames[nCounter] := sString_2;
+	
+	// check if both values are 0
+	ELSIF nStrLen_1 = 0 AND nStrLen_2 = 0 THEN
+		EXIT;
+		
+	// check if 1st string 1st char is less than 2nd string 1st char
+	ELSIF LEFT(STR := sString_1, SIZE := 1) < LEFT(STR := sString_2, SIZE := 1) THEN 
+		// swap names
+		sPlaceholder := sString_1;
+		aRecipeNames[nCounter] := sString_2;
+		aRecipeNames[nCounter + 1] := sPlaceholder;
+		nCounter := 1;
+	END_IF
+	nCounter := nCounter + 1;
+END_WHILE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_UpdateRecipeNames" Id="{159f407e-1f95-465b-a3f5-231de04b49d7}">
+      <Declaration><![CDATA[METHOD M_UpdateRecipeNames : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	nItem	: INT;
+	nIndex	: INT := 1;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR nItem := 1 TO nMaxRecipes DO
+	IF aRecipeBook[nItem].sRecipeName <> '' THEN
+		aRecipeNames[nIndex] := aRecipeBook[nItem].sRecipeName;
+		nIndex := nIndex + 1;
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Recipe">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Recipe.M_Create">
+      <LineId Id="141" Count="4" />
+      <LineId Id="147" Count="0" />
+      <LineId Id="156" Count="0" />
+      <LineId Id="148" Count="1" />
+      <LineId Id="139" Count="1" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="150" Count="0" />
+      <LineId Id="99" Count="3" />
+      <LineId Id="153" Count="0" />
+      <LineId Id="103" Count="1" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="154" Count="0" />
+      <LineId Id="157" Count="1" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="129" Count="2" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="152" Count="0" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="115" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Recipe.M_Delete">
+      <LineId Id="39" Count="7" />
+      <LineId Id="48" Count="2" />
+      <LineId Id="52" Count="1" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="21" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Recipe.M_Edit">
+      <LineId Id="23" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="32" Count="2" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="21" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Recipe.M_OrderList">
+      <LineId Id="136" Count="25" />
+      <LineId Id="177" Count="0" />
+      <LineId Id="173" Count="2" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Recipe.M_UpdateRecipeNames">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

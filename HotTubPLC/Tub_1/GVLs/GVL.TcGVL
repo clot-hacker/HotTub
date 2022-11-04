@@ -1,13 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <GVL Name="GVL" Id="{ea787d6c-627f-4fb6-88c4-d6ea0572f3b1}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
+
+	// general use I/O
+	biOperatorDoorClosed 	AT %I* : BOOL;
+	biMaintDoorClosed		AT %I* : BOOL;
 	
-	mb_Input_Coils			: ARRAY [0..255] OF BOOL;
-	mb_Output_Coils			: ARRAY [0..255] OF BOOL;
-	mb_Input_Registers		: ARRAY [0..255] OF WORD;
-	mb_Output_Registers		: ARRAY [0..255] OF WORD;
+	// stack light I/O
+	boStackLightGreen		AT %Q* : BOOL;
+	boStackLightYellow		AT %Q* : BOOL;
+	boStackLightRed			AT %Q* : BOOL;
+	
+	// salt furnace I/O
+	aiSaltTemp				AT %I* : INT;
+	
+	// quench tank I/O
+	biWaterLevelLow			AT %I* : BOOL;
+	biWaterLevelHigh 		AT %I* : BOOL;
+	biWaterOverflowAlarm	AT %I* : BOOL;
+	biWaterLeakAlarm		AT %I* : BOOL;
+	boEnablePump			AT %Q* : BOOL;
+	boOpenFillValve			AT %Q* : BOOL;
+	boOpenDrainValve		AT %Q* : BOOL;
+	boEnableHeaters			AT %Q* : BOOL;
+	aiWaterTemp				AT %I* : USINT;
+	
+	// gantry I/O
+	biMotorErrorX			AT %I* : BOOL;
+	biMotorErrorY			AT %I* : BOOL;
 	
 END_VAR]]></Declaration>
   </GVL>

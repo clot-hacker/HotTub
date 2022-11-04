@@ -1,21 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="FB_QuenchTank" Id="{a0e2e726-f3b1-46e4-a948-9b07cbe723bb}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_QuenchTank
 VAR_INPUT
+	sAction 				: STRING(10);			// 'fill', 'drain'
 END_VAR
+
 VAR_OUTPUT
-	biWaterLevelEmpty		AT %I* : BOOL;
-	biWaterLevelFull 		AT %I* : BOOL;
-	biWaterOverflowAlarm	AT %I* : BOOL;
-	biWaterLeakAlarm		AT %I* : BOOL;
-	boEnablePump			AT %I* : BOOL;
-	boOpenFillValve			AT %I* : BOOL;
-	boEnableHeaters			AT %I* : BOOL;
-	aiWaterTemp				AT %I* : USINT;
+	bError					: BOOL;
+	nWaterTemp				: USINT;				// scaled value of thermocouple
+	sErrorMsg				: STRING(60);
+END_VAR
+
+VAR
+	tDrainTimeout           : TIME := T#10S;		// time until drain is aborted
+	tFillTimeout			: TIME := T#10S;		// time until fill is aborted
+	tPumpEnableDelay		: TIME := T#3S;			// delay to allow drain valve to open before pump is enabled
+	tmrFillTimer			: Tc2_Standard.TON;
+	tmrDrainTimer			: Tc2_Standard.TON;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[IF sAction = 'fill' THEN
+	tmrFillTimer(IN := TRUE, PT := tFillTimeout);
+	IF NOT tmrFillTimer.Q THEN
+		GVL.boOpenFillValve := TRUE;
+		bError := FALSE;
+		sErrorMsg := '';
+	ELSE
+		GVL.boOpenFillValve := FALSE;
+		bError := TRUE;
+		sErrorMsg := 'Timeout while filling tank - check float high level sensor';
+	END_IF
+
+ELSIF sAction = 'drain' THEN
+	tmrDrainTimer(IN := TRUE, PT := tDrainTimeout);
+	GVL.boOpenDrainValve := TRUE;
+	IF tmrDrainTimer.ET > tPumpEnableDelay THEN
+		GVL.boEnablePump := TRUE;
+	END_IF
+ELSE
+	tmrDrainTimer(IN := FALSE);
+	tmrFillTimer(IN := FALSE);
+END_IF
+]]></ST>
     </Implementation>
     <Method Name="M_DrainTank" Id="{f2311ade-b7b2-4b22-8411-9cb761205599}">
       <Declaration><![CDATA[METHOD M_DrainTank : BOOL
@@ -37,6 +64,22 @@ END_VAR
     </Method>
     <LineIds Name="FB_QuenchTank">
       <LineId Id="9" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="32" Count="1" />
+      <LineId Id="35" Count="1" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_QuenchTank.M_DrainTank">
       <LineId Id="5" Count="0" />

@@ -11,6 +11,10 @@
       },
       {
         "publishServerExtension": true,
+        "name": "TcHmiRecipeManagement"
+      },
+      {
+        "publishServerExtension": true,
         "name": "TcHmiSqliteLogger"
       },
       {
@@ -38,7 +42,7 @@
     "abortOnErrors": true,
     "userName": "",
     "encryptedPassword": "",
-    "encryptedTcHmiServerPassword": "NoBiU6ODDn3cJCVYYIy9wQ==",
+    "encryptedTcHmiServerPassword": "pBadu6e4K7cvm+kwEPSrWg==",
     "tcHmiServerHost": "169.254.181.196",
     "tcHmiServerPort": "1020",
     "socketTimeout": "60",
